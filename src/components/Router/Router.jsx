@@ -1,5 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainPage from "../pages/MainPage/MainPage";
+import HomePage from "../pages/HomePage/HomePage";
+import MoneyTrack from "../pages/MoneyTrack/MoneyTrack";
+import NotFound from "../pages/NotFound/NotFound";
 
 const Router = createBrowserRouter([
   {
@@ -8,23 +11,17 @@ const Router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <div>Home Page</div>,
+        element: <HomePage></HomePage>,
       },
       {
         path: "/money_track",
-        element: (
-          <div>
-            Money Track is the better choice. It sounds more natural,
-            professional, and user-friendly. It clearly conveys the idea of
-            tracking money, making it more intuitive for users. 🚀
-          </div>
-        ),
+        element: <MoneyTrack />,
+      },
+      {
+        path: "*",
+        element: <NotFound></NotFound>,
       },
     ],
-  },
-  {
-    path: "*",
-    element: <p>error 404</p>,
   },
 ]);
 
