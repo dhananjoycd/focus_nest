@@ -21,7 +21,7 @@ const MoneyTrack = () => {
         <aside className="left col-span-3">
           <LeftSideBar></LeftSideBar>
         </aside>
-        <section className="col-span-9 ms-3 mt-5">
+        <section className="col-span-9 ms-1 mt-5">
           <Outlet></Outlet>
         </section>
       </div>

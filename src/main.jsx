@@ -5,12 +5,15 @@ import AuthProvider from "./Providers/AuthProvider.jsx";
 import { HelmetProvider } from "react-helmet-async";
 import { RouterProvider } from "react-router-dom";
 import router from "./components/Router/Router.jsx";
+import FinanceProvider from "./Providers/FinanceProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <HelmetProvider>
-        <RouterProvider router={router} />
+        <FinanceProvider>
+          <RouterProvider router={router} />
+        </FinanceProvider>
       </HelmetProvider>
     </AuthProvider>
   </StrictMode>

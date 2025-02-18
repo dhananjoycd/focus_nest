@@ -1,8 +1,8 @@
-import BasicInfo from "../pages/MoneyTrack/BasicInfo";
-import CurrentStatus from "../pages/MoneyTrack/CurrentStatus";
-import Details from "../pages/MoneyTrack/Details";
-import Earnings from "../pages/MoneyTrack/Earnings";
-import Expenses from "../pages/MoneyTrack/Expenses";
+import CurrentStatus from "../pages/MoneyTrack/CurrentStatus/CurrentStatus";
+import Details from "../pages/MoneyTrack/Details/Details";
+import Earnings from "../pages/MoneyTrack/Earnings/Earnings";
+import Expenses from "../pages/MoneyTrack/Expenses/Expenses";
+import BasicInfo from "../pages/MoneyTrack/Theory/BasicInfo";
 
 const sidebarLinks = [
   {
