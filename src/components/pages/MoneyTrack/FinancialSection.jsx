@@ -15,17 +15,18 @@ const FinancialSection = ({ type, data }) => {
         <div className="col-span-6">Total {type}</div>
       </section>
 
+      {/* Search and sorting Section */}
+      <section className="mt-3 text-center">
+        <p>It can be Monthly, Weekly, or All {type} history</p>
+        <Search />
+      </section>
+
       {/* Categories Section */}
       <section className="grid grid-cols-12 mt-3">
         <div className="col-span-3">Personal</div>
         <div className="col-span-3">Family</div>
         <div className="col-span-3">Loan</div>
         <div className="col-span-3">Others</div>
-      </section>
-
-      {/* Search Section */}
-      <section className="mt-3 text-center">
-        <Search />
       </section>
 
       {/* Button to Add Income or Expense */}
@@ -76,7 +77,6 @@ const FinancialSection = ({ type, data }) => {
         <h2 className="text-center my-2 p-2 text-2xl border border-solid">
           {type} History
         </h2>
-        <p>It can be Monthly, Weekly, or All {type} history</p>
 
         <HistoryTable type={type} data={data}></HistoryTable>
 

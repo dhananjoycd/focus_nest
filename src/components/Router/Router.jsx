@@ -4,6 +4,8 @@ import HomePage from "../pages/HomePage/HomePage";
 import MoneyTrack from "../pages/MoneyTrack/MoneyTrack";
 import NotFound from "../pages/NotFound/NotFound";
 import sidebarLinks from "./moneyRoutes";
+import SignIn from "../users/authentication/signin";
+import SignUp from "../users/authentication/SignUp";
 
 // Dynamically generate children routes for MoneyTrack
 const moneyTrackChildren = sidebarLinks.map((item) => ({
@@ -19,6 +21,14 @@ const Router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/signIn",
+        element: <SignIn></SignIn>,
+      },
+      {
+        path: "/signUp",
+        element: <SignUp></SignUp>,
       },
       {
         path: "/money_track",
