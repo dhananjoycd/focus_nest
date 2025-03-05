@@ -16,7 +16,13 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
-  console.log(user);
+  console.log(user?.uid);
+  console.log(user?.displayName);
+  console.log(user?.email);
+  console.log(user?.photoURL);
+  console.log(user?.phoneNumber);
+  console.log(user?.metadata);
+  console.log(user?.emailVerified);
 
   // google sigIn
   const googleSign = () => {

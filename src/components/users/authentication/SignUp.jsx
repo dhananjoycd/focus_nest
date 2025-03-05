@@ -4,6 +4,7 @@ import PageTransition from "../../../Providers/AnimationProvider/PageTransition"
 import SocailSignIn from "./SocailSignIn";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { createUserByAxios } from "../../../hooks/apiByAxios";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -62,8 +63,10 @@ const SignUp = () => {
       setLoading(true);
       try {
         await createUser(formData.email, formData.password);
-        // Backend Data
-        navigate("/");
+        // send Data On Server and also Database
+        createUserByAxios(formData);
+        alert("You have registered Succesfully!");
+        navigate("/money_track");
       } catch (error) {
         setFirebaseError("Check Again! You have entered Invalid Data"); // Set Firebase error message
       } finally {
