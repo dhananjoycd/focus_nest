@@ -4,11 +4,12 @@ import PageTransition from "../../../Providers/AnimationProvider/PageTransition"
 import SocailSignIn from "./SocailSignIn";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import { createUserByAxios } from "../../../hooks/apiByAxios";
+// import { createUserByAxios } from "../../../hooks/apiByAxios";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { createUser, setLoading } = useContext(AuthContext);
+  const { createUser, sendToServer } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -16,7 +17,8 @@ const SignUp = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    mobile: "",
+    phoneNumber: "",
+    role: "viewer",
   });
 
   const [errors, setErrors] = useState({});
@@ -48,8 +50,8 @@ const SignUp = () => {
       newErrors.confirmPassword = "Passwords do not match";
     }
 
-    if (formData.mobile && !/^\d{11,15}$/.test(formData.mobile)) {
-      newErrors.mobile = "Enter a valid mobile number";
+    if (formData.phoneNumber && !/^\d{11,15}$/.test(formData.phoneNumber)) {
+      newErrors.phoneNumber = "Enter a valid phoneNumber number";
     }
 
     setErrors(newErrors);
@@ -60,15 +62,14 @@ const SignUp = () => {
     setFirebaseError(""); // Clear previous Firebase errors
 
     if (validateForm()) {
-      setLoading(true);
       try {
-        await createUser(formData.email, formData.password);
-        // send Data On Server and also Database
-        createUserByAxios(formData);
+        setLoading(true);
+        await createUser(formData.email, formData.password, formData);
         alert("You have registered Succesfully!");
-        navigate("/money_track");
+        navigate("/profile");
       } catch (error) {
         setFirebaseError("Check Again! You have entered Invalid Data"); // Set Firebase error message
+        setLoading(false);
       } finally {
         setLoading(false);
       }
@@ -160,19 +161,19 @@ const SignUp = () => {
             )}
           </div>
 
-          {/* Mobile Number */}
+          {/* phoneNumber Number */}
           <div>
-            <label className="block font-medium">Mobile (Optional)</label>
+            <label className="block font-medium">phoneNumber (Optional)</label>
             <input
               type="text"
-              name="mobile"
-              value={formData.mobile}
+              name="phoneNumber"
+              value={formData.phoneNumber}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
-              placeholder="Enter mobile number"
+              placeholder="Enter phoneNumber number"
             />
-            {errors.mobile && (
-              <p className="text-red-500 text-sm">{errors.mobile}</p>
+            {errors.phoneNumber && (
+              <p className="text-red-500 text-sm">{errors.phoneNumber}</p>
             )}
           </div>
 
@@ -188,7 +189,7 @@ const SignUp = () => {
             type="submit"
             className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition"
           >
-            Sign Up
+            {loading ? "Signing..." : "Sign Up"}
           </button>
         </form>
       </div>

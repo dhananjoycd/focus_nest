@@ -13,7 +13,26 @@ export const fetchUsersByAxios = async () => {
 };
 
 // Create a new user
-export const createUserByAxios = async (userData) => {
+export const createUserByAxios = async (user, formData) => {
+  if (!user) return;
+
+  console.log(user?.uid);
+
+  console.log(formData?.firstName);
+  console.log(formData?.lastName);
+  console.log(formData?.phoneNumber);
+
+  const userData = {
+    uid: user?.uid,
+    displayName:
+      user?.displayName || `${formData?.firstName} ${formData?.lastName}`,
+    email: user?.email,
+    role: "viewer",
+    photoURL: user?.photoURL || "photourlCai",
+    phoneNumber: user?.phoneNumber || formData?.phoneNumber,
+    emailVerified: user?.emailVerified || false,
+  };
+
   try {
     const response = await axios.post(
       "http://localhost:5000/api/users/signUp",

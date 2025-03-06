@@ -9,21 +9,14 @@ import {
   signOut,
 } from "firebase/auth";
 import auth from "../components/users/authentication/firebase/firebase.init";
+import { createUserByAxios } from "../hooks/apiByAxios";
 
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
+
   const [user, setUser] = useState(null);
-
-  console.log(user?.uid);
-  console.log(user?.displayName);
-  console.log(user?.email);
-  console.log(user?.photoURL);
-  console.log(user?.phoneNumber);
-  console.log(user?.metadata);
-  console.log(user?.emailVerified);
-
   // google sigIn
   const googleSign = () => {
     setLoading(true);
@@ -36,14 +29,33 @@ const AuthProvider = ({ children }) => {
   };
 
   //Sign Up form -- Mannually
-  const createUser = (email, password) => {
+  const createUser = async (email, password, formData) => {
     setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const newUser = userCredential.user; // Get the new user
+
+      // Wait for state update
+      setUser(newUser);
+
+      // Send user data to backend after setting state
+      await createUserByAxios(newUser, formData);
+
+      return newUser;
+    } catch (error) {
+      console.error("Error in createUser:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   // signOut user
   const signOutUser = () => {
-    setLoading(true);
     return signOut(auth);
   };
 
