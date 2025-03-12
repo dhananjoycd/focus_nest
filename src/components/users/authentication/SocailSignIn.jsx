@@ -1,13 +1,17 @@
 import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SocailSignIn = () => {
   const { googleSign } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location?.state || "/";
   return (
     <div className="flex flex-col w-1/4 justify-center mx-auto my-2 py-3">
       {/* Google */}
       <button
-        onClick={() => googleSign()}
+        onClick={() => googleSign().then(() => navigate(from))}
         className="btn mt-3 bg-white text-black border-[#e5e5e5]"
       >
         <svg

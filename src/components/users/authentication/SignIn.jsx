@@ -3,11 +3,13 @@ import { useContext, useState } from "react";
 import PageTransition from "../../../Providers/AnimationProvider/PageTransition";
 import SocailSignIn from "./SocailSignIn";
 import { AuthContext } from "../../../Providers/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
-  const navigate = useNavigate();
   const { userSign, setLoading } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state || "/";
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,7 +28,7 @@ const SignIn = () => {
 
     try {
       await userSign(formData.email, formData.password);
-      navigate("/money_track");
+      navigate(from);
     } catch (error) {
       setFirebaseError("Check Again! You have entered Invalid Data"); // ✅ Extract error message
     } finally {

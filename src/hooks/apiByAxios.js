@@ -15,13 +15,6 @@ export const fetchUsersByAxios = async () => {
 // Create a new user
 export const createUserByAxios = async (user, formData) => {
   if (!user) return;
-
-  console.log(user?.uid);
-
-  console.log(formData?.firstName);
-  console.log(formData?.lastName);
-  console.log(formData?.phoneNumber);
-
   const userData = {
     uid: user?.uid,
     displayName:

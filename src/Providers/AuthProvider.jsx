@@ -15,8 +15,8 @@ export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-
   const [user, setUser] = useState(null);
+
   // google sigIn
   const googleSign = () => {
     setLoading(true);
@@ -63,12 +63,13 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false); // Set loading to false after user check
     });
 
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [user]);
 
   // presenting here auth info
   const authInfo = {

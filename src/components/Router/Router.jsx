@@ -7,6 +7,8 @@ import sidebarLinks from "./moneyRoutes";
 import SignIn from "../users/authentication/signin";
 import SignUp from "../users/authentication/SignUp";
 import UserProfile from "../pages/User/UserProfile/UserProfile";
+import PrivateRoute from "./privateRoute";
+import PublicRoute from "./PublicRoute";
 
 // Dynamically generate children routes for MoneyTrack
 const moneyTrackChildren = sidebarLinks.map((item) => ({
@@ -25,19 +27,35 @@ const Router = createBrowserRouter([
       },
       {
         path: "/signIn",
-        element: <SignIn></SignIn>,
+        element: (
+          <PublicRoute>
+            <SignIn />
+          </PublicRoute>
+        ),
       },
       {
         path: "/signUp",
-        element: <SignUp></SignUp>,
+        element: (
+          <PublicRoute>
+            <SignUp />
+          </PublicRoute>
+        ),
       },
       {
         path: "/profile",
-        element: <UserProfile></UserProfile>,
+        element: (
+          <PrivateRoute>
+            <UserProfile />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/money_track",
-        element: <MoneyTrack />,
+        element: (
+          <PrivateRoute>
+            <MoneyTrack />
+          </PrivateRoute>
+        ),
         children: moneyTrackChildren, // Dynamically generated children
       },
       {
