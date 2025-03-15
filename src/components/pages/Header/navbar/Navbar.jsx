@@ -5,25 +5,33 @@ import AuthContext from "../../../../Providers/AuthContext/AuthContext";
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
 
-  const navLinks = (
+  let navLinks = (
     <>
-      <li>
-        <NavLink to="/profile"> My Profile</NavLink>
-      </li>
-      <li>
-        <NavLink to="/money_track">Money</NavLink>
-      </li>
-      <li>
-        <NavLink to="/time_track">Time</NavLink>
-      </li>
-      <li>
-        <NavLink to="/signIn">Sign In</NavLink>
-      </li>
-      <li>
-        <NavLink to="/signUp">Sign Up</NavLink>
-      </li>
+      {user ? (
+        <>
+          <li>
+            <NavLink to="/profile">My Profile</NavLink>
+          </li>
+          <li>
+            <NavLink to="/money_track">Money</NavLink>
+          </li>
+          <li>
+            <NavLink to="/time_track">Time</NavLink>
+          </li>
+        </>
+      ) : (
+        <>
+          <li>
+            <NavLink to="/signIn">Sign In</NavLink>
+          </li>
+          <li>
+            <NavLink to="/signUp">Sign Up</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
