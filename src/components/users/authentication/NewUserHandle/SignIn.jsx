@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
-import PageTransition from "../../../Providers/AnimationProvider/PageTransition";
-import SocailSignIn from "./SocailSignIn";
-import { AuthContext } from "../../../Providers/AuthProvider";
 import { useLocation, useNavigate } from "react-router-dom";
+import PageTransition from "../../../../Providers/AnimationProvider/PageTransition";
+import SocailSignIn from "./SocailSignIn";
+import AuthContext from "../../../../Providers/AuthContext/AuthContext";
+import CommonMsg from "./CommonMsg";
 
 const SignIn = () => {
-  const { userSign, setLoading } = useContext(AuthContext);
+  const { userSign, loading, setLoading } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state || "/";
@@ -81,9 +82,11 @@ const SignIn = () => {
             type="submit"
             className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition"
           >
-            Sign In
+            {loading ? "Signing..." : "Sign In"}
           </button>
         </form>
+
+        <CommonMsg type={"signIn"}></CommonMsg>
       </div>
       <SocailSignIn />
     </PageTransition>

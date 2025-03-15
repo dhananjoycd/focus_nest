@@ -4,11 +4,11 @@ import HomePage from "../pages/HomePage/HomePage";
 import MoneyTrack from "../pages/MoneyTrack/MoneyTrack";
 import NotFound from "../pages/NotFound/NotFound";
 import sidebarLinks from "./moneyRoutes";
-import SignIn from "../users/authentication/signin";
-import SignUp from "../users/authentication/SignUp";
-import UserProfile from "../pages/User/UserProfile/UserProfile";
 import PrivateRoute from "./privateRoute";
 import PublicRoute from "./PublicRoute";
+import UserProfile from "../users/UserProfile/UserProfile";
+import SignIn from "../users/authentication/NewUserHandle/SignIn";
+import SignUp from "../users/authentication/NewUserHandle/SignUp";
 
 // Dynamically generate children routes for MoneyTrack
 const moneyTrackChildren = sidebarLinks.map((item) => ({

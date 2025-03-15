@@ -3,9 +3,9 @@ import axios from "axios";
 const API_BASE_URL = "http://localhost:5000/api/users"; // Backend API URL
 
 // Fetch all users
-export const fetchUsersByAxios = async () => {
+export const fetchUsersByAxios = async (url) => {
   try {
-    const response = await axios.get(API_BASE_URL);
+    const response = await axios.get(url);
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -13,7 +13,7 @@ export const fetchUsersByAxios = async () => {
 };
 
 // Create a new user
-export const createUserByAxios = async (user, formData) => {
+export const createUserByAxios = async (url, user, formData) => {
   if (!user) return;
   const userData = {
     uid: user?.uid,
@@ -27,10 +27,7 @@ export const createUserByAxios = async (user, formData) => {
   };
 
   try {
-    const response = await axios.post(
-      "http://localhost:5000/api/users/signUp",
-      userData
-    );
+    const response = await axios.post(url, userData);
     return response.data;
   } catch (error) {
     console.error("Error creating user:", error);

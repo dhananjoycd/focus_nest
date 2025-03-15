@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
-import PageTransition from "../../../Providers/AnimationProvider/PageTransition";
-import SocailSignIn from "./SocailSignIn";
-import { AuthContext } from "../../../Providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
-// import { createUserByAxios } from "../../../hooks/apiByAxios";
+import PageTransition from "../../../../Providers/AnimationProvider/PageTransition";
+import SocailSignIn from "./SocailSignIn";
+import AuthContext from "../../../../Providers/AuthContext/AuthContext";
+import CommonMsg from "./CommonMsg";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -192,6 +192,8 @@ const SignUp = () => {
             {loading ? "Signing..." : "Sign Up"}
           </button>
         </form>
+
+        <CommonMsg></CommonMsg>
       </div>
       <SocailSignIn></SocailSignIn>
     </PageTransition>
