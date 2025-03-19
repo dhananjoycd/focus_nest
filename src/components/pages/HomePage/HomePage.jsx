@@ -1,6 +1,5 @@
 import PageTransition from "../../../Providers/AnimationProvider/PageTransition";
 import { format } from "date-fns";
-
 const HomePage = () => {
   const fullDateTime = format(new Date(), "dd MMM yyyy , hh:mm:ss a");
 

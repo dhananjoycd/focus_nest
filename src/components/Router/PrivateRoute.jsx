@@ -10,10 +10,10 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!user?.emailVerified && location.pathname !== "/profile") {
+    if (!user?.emailVerified && !loading && location.pathname !== "/profile") {
       toast.warning("Please verify your email to access this page.", {
         position: "top-center",
-        autoClose: 2500, // Message disappears after 4 seconds
+        autoClose: 1200, // Message disappears after 4 seconds
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -27,7 +27,7 @@ const PrivateRoute = ({ children }) => {
         progressStyle: { background: "#c82333" },
       });
     }
-  }, [location.pathname, user?.emailVerified]);
+  }, [user?.emailVerified, location.pathname, loading]);
 
   if (loading) {
     return (

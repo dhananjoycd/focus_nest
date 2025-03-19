@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../../../../Providers/AuthContext/AuthContext";
+import ThemeToggleBtn from "../../../../Providers/ThemeContext/ThemeToggleBtn";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
@@ -68,6 +69,7 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navLinks}</ul>
       </div>
       <div className="navbar-end">
+        <ThemeToggleBtn></ThemeToggleBtn>
         {user ? (
           <button className="btn btn-error" onClick={signOutUser}>
             Sign Out

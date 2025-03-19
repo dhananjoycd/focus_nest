@@ -21,7 +21,7 @@ export const createUserByAxios = async (url, user, formData) => {
       user?.displayName || `${formData?.firstName} ${formData?.lastName}`,
     email: user?.email,
     role: "viewer",
-    photoURL: user?.photoURL || "photourlCai",
+    photoURL: user?.photoURL || null,
     phoneNumber: user?.phoneNumber || formData?.phoneNumber,
     emailVerified: user?.emailVerified || false,
   };
