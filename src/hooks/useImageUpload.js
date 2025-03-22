@@ -26,7 +26,7 @@ const useImageUpload = () => {
         // Update user profile in database
 
         await axios
-          .put(`http://localhost:5000/api/users/${userId}`, {
+          .put(`"https://focus-nest-server.vercel.app/api/users/${userId}`, {
             [type]: imageUrl,
           })
           .then((response) => {

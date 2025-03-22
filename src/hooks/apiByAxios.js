@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api/users"; // Backend API URL
+const API_BASE_URL = "https://focus-nest-server.vercel.app/api/users"; // Backend API URL
 
 // Fetch all users
 export const fetchUsersByAxios = async (url) => {

@@ -26,7 +26,7 @@ const AuthProvider = ({ children }) => {
 
       // Send user data to backend
       await createUserByAxios(
-        "http://localhost:5000/api/users/signUp",
+        "https://focus-nest-server.vercel.app/api/users/signUp",
         newUser
       );
 
@@ -61,7 +61,7 @@ const AuthProvider = ({ children }) => {
 
       // Send user data to backend
       await createUserByAxios(
-        "http://localhost:5000/api/users/signUp",
+        "https://focus-nest-server.vercel.app/api/users/signUp",
         newUser,
         formData
       );
@@ -92,7 +92,7 @@ const AuthProvider = ({ children }) => {
     const fetchUsers = async () => {
       try {
         const users = await fetchUsersByAxios(
-          "http://localhost:5000/api/users"
+          "https://focus-nest-server.vercel.app/api/users"
         );
         setDbUsers(users);
       } catch (error) {

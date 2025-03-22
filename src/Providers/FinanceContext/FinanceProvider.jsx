@@ -8,7 +8,7 @@ import AuthContext from "../AuthContext/AuthContext";
 const FinanceProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
   const { fetchData, createData, deleteData } = useApi(
-    "http://localhost:5000/api/money"
+    "https://focus-nest-server.vercel.app/api/money"
   );
 
   const [results, setResults] = useState([]);
