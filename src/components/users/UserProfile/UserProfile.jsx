@@ -3,6 +3,7 @@ import PageTransition from "../../../Providers/AnimationProvider/PageTransition"
 import ProfileHeader from "./ProfileHeader";
 import ProfileInfo from "./ProfileInfo";
 import EditProfile from "./EditProfile";
+import Settings from "./Settings";
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("info");
@@ -13,7 +14,7 @@ const UserProfile = () => {
 
         {/* Tab Navigation */}
         <div className="flex space-x-4 border-b pb-2 mt-4">
-          {["info", "edit"].map((tab) => (
+          {["info", "edit", "settings"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -32,6 +33,7 @@ const UserProfile = () => {
         <div className="mt-4">
           {activeTab === "info" && <ProfileInfo />}
           {activeTab === "edit" && <EditProfile />}
+          {activeTab === "settings" && <Settings></Settings>}
         </div>
       </div>
     </PageTransition>

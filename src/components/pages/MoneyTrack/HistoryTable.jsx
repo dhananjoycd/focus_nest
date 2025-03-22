@@ -1,12 +1,15 @@
+/* eslint-disable react/prop-types */
+import { FilePenLine, Trash2 } from "lucide-react";
+import { format } from "date-fns";
 import PropTypes from "prop-types";
 
-const HistoryTable = ({ type, data }) => {
+const HistoryTable = ({ type, data, btn }) => {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto bg-gray-200">
       <table className="table">
         {/* Table Header */}
         <thead>
-          <tr className="bg-fuchsia-800 text-yellow-50">
+          <tr className="bg-fuchsia-800 text-yellow-50 text-center">
             <th>No.</th>
             <th>
               {type === "Earnings" ? "Source of Money" : "Expense Category"}
@@ -19,18 +22,30 @@ const HistoryTable = ({ type, data }) => {
         </thead>
 
         {/* Table Body */}
-        <tbody>
+        <tbody className="text-center">
           {data?.length > 0 ? (
             data.map((item, index) => (
-              <tr key={index} className="hover:bg-base-300">
+              <tr
+                key={index}
+                className=" border-b-gray-50 hover:bg-amber-50 shadow"
+              >
                 <th>{index + 1}</th>
                 <td>{item.source}</td>
                 <td>{item.type}</td>
-                <td>{item.amount}</td>
-                <td>{item.date}</td>
-                <td>
-                  <button className="btn btn-sm btn-warning mr-2">Edit</button>
-                  <button className="btn btn-sm btn-error">Delete</button>
+                <td className="text-black">{item.amount}</td>
+                <td className="text-[12px]">
+                  {format(item.date, "dd MMM yyyy hh:mm:ss a")}
+                </td>
+                <td className="flex">
+                  <button className="btn btn-sm me-1 btn-warning ">
+                    <FilePenLine />
+                  </button>
+                  <button
+                    onClick={() => btn(item._id)}
+                    className="btn  btn-sm btn-error "
+                  >
+                    <Trash2 />
+                  </button>
                 </td>
               </tr>
             ))

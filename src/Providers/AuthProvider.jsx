@@ -127,6 +127,7 @@ const AuthProvider = ({ children }) => {
     loading,
     setLoading,
     user,
+    setUser,
     googleSign,
     createUser,
     userSign,

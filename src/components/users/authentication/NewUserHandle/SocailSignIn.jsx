@@ -51,7 +51,7 @@ const SocailSignIn = () => {
           Login with Google
         </button>
         {/* GitHub */}
-        <button className="btn mt-3 bg-black text-white border-black">
+        <button className="btn mt-3 bg-black text-white border-black" disabled>
           <svg
             aria-label="GitHub logo"
             width="16"
@@ -67,7 +67,10 @@ const SocailSignIn = () => {
           Login with GitHub
         </button>
         {/* Facebook */}
-        <button className="btn mt-3 bg-[#1A77F2] text-white border-[#005fd8]">
+        <button
+          className="btn  mt-3 bg-[#1A77F2] text-white border-[#005fd8]"
+          disabled
+        >
           <svg
             aria-label="Facebook logo"
             width="16"

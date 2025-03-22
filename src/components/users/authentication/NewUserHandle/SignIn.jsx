@@ -86,7 +86,7 @@ const SignIn = () => {
           </button>
         </form>
 
-        <CommonMsg type={"signIn"}></CommonMsg>
+        <CommonMsg type={"signIn"} email={formData.email}></CommonMsg>
       </div>
       <SocailSignIn />
     </PageTransition>
