@@ -19,7 +19,7 @@ const EditProfile = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `"https://focus-nest-server.vercel.app/api/users/${user?._id}`,
+        `https://focus-nest-server.vercel.app/api/users/${user?._id}`,
         formData
       );
 

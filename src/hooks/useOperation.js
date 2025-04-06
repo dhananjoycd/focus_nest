@@ -42,7 +42,7 @@ const useOperation = () => {
 
       if (firebaseUser.emailVerified) {
         toast.warn("Your Email have been verified");
-        axios.put(`"https://focus-nest-server.vercel.app/api/users/${userID}`, {
+        axios.put(`https://focus-nest-server.vercel.app/api/users/${userID}`, {
           emailVerified: true,
         });
       }
@@ -73,7 +73,7 @@ const useOperation = () => {
       await reauthenticateWithCredential(firebaseUser, credentials);
       await deleteUser(firebaseUser);
       const response = await axios.delete(
-        `"https://focus-nest-server.vercel.app/api/users/${userID}`
+        `https://focus-nest-server.vercel.app/api/users/${userID}`
       );
       if (response.status === 200) {
         toast.success("Your account have been deleted successfully.");
