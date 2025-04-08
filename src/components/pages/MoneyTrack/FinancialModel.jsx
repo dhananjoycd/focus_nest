@@ -1,11 +1,17 @@
 /* eslint-disable react/prop-types */
 import { format } from "date-fns";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
+import { toast } from "react-toastify";
 
 const FinancialModel = ({ id, title, type, onSubmit }) => {
   const fullDateTime = format(new Date(), "dd MMM yyyy hh:mm:ss a");
+  const {
+    //categories list
+    earningsCategories,
+    expensesCategories,
+  } = useContext(FinanceContext);
 
-  // State for form input
   const [formData, setFormData] = useState({
     source: "",
     type: "",
@@ -13,24 +19,100 @@ const FinancialModel = ({ id, title, type, onSubmit }) => {
     date: fullDateTime,
   });
 
-  // Handle Input Change
+  const [customType, setCustomType] = useState("");
+  const [showCustomInput, setShowCustomInput] = useState(false);
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "type" && value === "Others") {
+      setShowCustomInput(true);
+      setFormData({ ...formData, [name]: "" });
+    } else {
+      setShowCustomInput(false);
+      setCustomType("");
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
-  // Handle Form Submission
-  const handleSubmit = async (e) => {
+  const handleCustomTypeChange = (e) => {
+    const value = e.target.value;
+
+    // Disallow spaces
+    if (value.includes(" "))
+      return toast.error("No spaces allowed — one word only! 🚫 ");
+
+    setCustomType(value);
+    setFormData({ ...formData, type: value });
+  };
+
+  const handleAmountChange = (e) => {
+    const value = e.target.value;
+    if (Number(value) >= 0) {
+      setFormData({ ...formData, amount: value });
+    } else return toast.error("Negative amount not allow!");
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // store data in database
+
     const endpoint = type === "Earnings" ? "addEarning" : "addExpense";
     onSubmit(endpoint, formData);
-    document.getElementById(id).close(); // Close modal
+
+    document.getElementById(id).close();
+
     setFormData({
       source: "",
       type: "",
       amount: "",
       date: fullDateTime,
-    }); // Reset Form
+    });
+    setCustomType("");
+    setShowCustomInput(false);
+  };
+
+  const renderTypeOptions = () => {
+    const capitalize = (str) =>
+      str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+    const makeUnique = (arr) => {
+      const seen = new Set();
+      return arr.filter((item) => {
+        const lower = item.toLowerCase();
+        if (seen.has(lower)) return false;
+        seen.add(lower);
+        return true;
+      });
+    };
+
+    const earningsOptions = makeUnique([
+      "Personal",
+      "Family",
+      "Loan",
+      ...earningsCategories,
+    ]).map(capitalize);
+
+    const expenseOptions = makeUnique([
+      "Food",
+      "Transport",
+      "Study",
+      "Health",
+      ...expensesCategories,
+    ]).map(capitalize);
+
+    const options = type === "Earnings" ? earningsOptions : expenseOptions;
+
+    return (
+      <>
+        <option value="">Select Type</option>
+        {options.map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
+        <option value="Others">Others</option>
+      </>
+    );
   };
 
   return (
@@ -40,7 +122,6 @@ const FinancialModel = ({ id, title, type, onSubmit }) => {
           {title}
         </h3>
         <form onSubmit={handleSubmit} className="space-y-3">
-          {/* Source of Money */}
           <input
             type="text"
             name="source"
@@ -50,58 +131,52 @@ const FinancialModel = ({ id, title, type, onSubmit }) => {
             className="input input-bordered w-full bg-white"
             required
           />
-          {/* dynamic Type */}
-          {type === "Earnings" ? (
-            <select
-              name="type"
-              value={formData.type}
-              onChange={handleChange}
-              className="select select-bordered w-full bg-white"
+
+          {/* Type Dropdown */}
+          <select
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+            className="select select-bordered w-full bg-white"
+            required={!showCustomInput}
+          >
+            {renderTypeOptions()}
+          </select>
+
+          {/* Custom Type Input Field */}
+          {showCustomInput && (
+            <input
+              type="text"
+              placeholder="Enter your others type"
+              value={customType}
+              onChange={handleCustomTypeChange}
+              className="input input-bordered w-full bg-white"
               required
-            >
-              <option value="">Select Type</option>
-              <option value="Personal">Personal</option>
-              <option value="Family">Family</option>
-              <option value="Loan">Loan</option>
-              <option value="Others">Others</option>
-            </select>
-          ) : (
-            <select
-              name="type"
-              value={formData.type}
-              onChange={handleChange}
-              className="select select-bordered w-full bg-white"
-              required
-            >
-              <option value="">Select Type</option>
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
-              <option value="Study">Study</option>
-              <option value="Health">Health</option>
-              <option value="Others">Others</option>
-            </select>
+            />
           )}
+
           {/* Amount */}
           <input
             type="number"
             name="amount"
             value={formData.amount}
-            onChange={handleChange}
+            onChange={handleAmountChange}
+            min="0"
             placeholder="Enter Amount (BDT)"
             className="input input-bordered w-full bg-white"
             required
           />
-          {/* Date (disabled and non-editable) */}
 
+          {/* Date (readonly) */}
           <input
             type="text"
             name="date"
             value={formData.date}
-            onChange={handleChange}
-            className="text-center text-gray-700  w-full bg-gray-200 rounded h-10"
+            className="text-center text-gray-700 w-full bg-gray-200 rounded h-10"
             disabled
             required
           />
+
           <div className="modal-action">
             <button type="submit" className="btn btn-primary">
               Save {type}
@@ -109,7 +184,11 @@ const FinancialModel = ({ id, title, type, onSubmit }) => {
             <button
               type="button"
               className="btn btn-error"
-              onClick={() => document.getElementById(id).close()}
+              onClick={() => {
+                document.getElementById(id).close();
+                setShowCustomInput(false);
+                setCustomType("");
+              }}
             >
               Exit
             </button>
