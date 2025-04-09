@@ -4,6 +4,7 @@ import FinancialModel from "./FinancialModel";
 import { useContext, useEffect, useState } from "react";
 import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
 import FinancailHead from "./FinancailHead";
+import Search from "./Search";
 
 const FinancialSection = ({ type }) => {
   const {
@@ -16,6 +17,8 @@ const FinancialSection = ({ type }) => {
     updateExpense,
     updateEarning,
     results,
+    setResults,
+    user,
   } = useContext(FinanceContext);
 
   const [itemsToShow, setItemsToShow] = useState(10);
@@ -70,6 +73,13 @@ const FinancialSection = ({ type }) => {
         <h2 className="text-center my-2 p-2 text-2xl border-b dark:text-amber-50">
           {type} History
         </h2>
+
+        {/* for Searching Data */}
+        {type === "Earnings" ? (
+          <Search setResults={setResults} uid={user?.uid} type="earning" />
+        ) : (
+          <Search setResults={setResults} uid={user?.uid} type="expense" />
+        )}
         {/* Input for custom record count */}
         <div className="w-full px-4 py-3 mt-4 mx-auto bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-md">
           <input
@@ -79,7 +89,7 @@ const FinancialSection = ({ type }) => {
             value={customInput}
             onChange={handleInputChange}
             className=" text-center w-full px-3 py-2 rounded-lg border border-blue-300 bg-white text-blue-900 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 text-sm md:text-base"
-            placeholder={` Show Records : Enter number (1 - ${rawData.length})`}
+            placeholder={`Enter a number (1–${rawData.length}) to show records`}
           />
         </div>
 

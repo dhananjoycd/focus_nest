@@ -22,7 +22,7 @@ const MoneyTrack = () => {
 
         {/* Sidebar */}
         <aside
-          className={`fixed md:relative dark:bg-gray-700 bg-gray-50 w-3/4 md:w-full md:top-0 md:left-0 md:col-span-3 lg:col-span-2 top-18 left-2 h-full md:h-auto border border-gray-300 rounded-3xl p-3 shadow-lg z-40 transition-transform duration-300 ease-in-out
+          className={`fixed md:sticky dark:bg-gray-700 bg-gray-50 w-3/4 md:w-full md:top-10 md:left-0 md:col-span-3 lg:col-span-2 top-18 left-2  h-fit max-h-[90vh]  border border-gray-300 rounded-3xl p-3 shadow-lg z-40 transition-transform duration-300 ease-in-out
           ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-160"
           } md:translate-x-0`}

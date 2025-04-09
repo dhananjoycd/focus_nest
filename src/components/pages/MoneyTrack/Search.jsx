@@ -17,7 +17,6 @@ const Search = ({ setResults, uid, type }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // const response = await axios.get(`${baseUrl}/${endpoint}`);
         if (!uid) {
           return setError(`Please make sure you are a valid user`);
         }
@@ -25,10 +24,10 @@ const Search = ({ setResults, uid, type }) => {
           return setError(`Please make sure you are in a valid page`);
         }
         const response = await axios.get(
-          `https://focus-nest-server.vercel.app/api/money/search?q=${query}&uid=${uid}&type=${type}`
+          // `https://focus-nest-server.vercel.app/api/money/search?q=${query}&uid=${uid}&type=${type}`
+          `http://localhost:5000/api/money/search?q=${query}&uid=${uid}&type=${type}`
         );
         setResults(response.data);
-        console.log("see", response.data.length);
         !response.data.length ? setError("No data Found") : setError(null);
       } catch (err) {
         setError("Failed to fetch transications");
@@ -51,7 +50,7 @@ const Search = ({ setResults, uid, type }) => {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search transactions by Sources or Types..."
+          placeholder="Filter transactions by details, type, or amount"
           className="w-full py-3 pl-12 pr-4 text-gray-700 border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
         />
         {/* Search Icon */}

@@ -8,6 +8,7 @@ import PublicRoute from "./PublicRoute";
 import UserProfile from "../users/UserProfile/UserProfile";
 import SignIn from "../users/authentication/NewUserHandle/SignIn";
 import SignUp from "../users/authentication/NewUserHandle/SignUp";
+import TimeManagement from "../pages/TimeManagement/TimeManagement";
 
 const Router = createBrowserRouter([
   {
@@ -43,10 +44,18 @@ const Router = createBrowserRouter([
         ),
       },
       {
-        path: "/money_track",
+        path: "/money",
         element: (
           <PrivateRoute>
             <MoneyTrack />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/time",
+        element: (
+          <PrivateRoute>
+            <TimeManagement />
           </PrivateRoute>
         ),
       },

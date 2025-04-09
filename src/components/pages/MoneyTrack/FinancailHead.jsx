@@ -1,11 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
 import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
-import Search from "./Search";
 
 const FinancailHead = ({ type }) => {
   const {
-    user,
     // numbers of amount
     totalEarnings,
     totalExpenses,
@@ -23,9 +21,6 @@ const FinancailHead = ({ type }) => {
     //categories list
     earningsCategories,
     expensesCategories,
-
-    // search
-    setResults,
   } = useContext(FinanceContext);
 
   return (
@@ -39,13 +34,6 @@ const FinancailHead = ({ type }) => {
           Total {type}: {type === "Earnings" ? totalEarnings : totalExpenses}
         </div>
       </section>
-
-      {/* for Searching Data */}
-      {type === "Earnings" ? (
-        <Search setResults={setResults} uid={user?.uid} type="earning" />
-      ) : (
-        <Search setResults={setResults} uid={user?.uid} type="expense" />
-      )}
 
       {/*Sorting Section */}
       <section className="my-5 border rounded-lg p-4 shadow-md bg-gray-50">

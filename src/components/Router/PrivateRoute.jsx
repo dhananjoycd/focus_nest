@@ -11,7 +11,7 @@ const PrivateRoute = ({ children }) => {
 
   useEffect(() => {
     if (!user?.emailVerified && !loading && location.pathname !== "/profile") {
-      toast.warning("Please verify your email to access this page.", {
+      toast.warning("You are not a valid user to access this page", {
         position: "top-center",
         autoClose: 1200, // Message disappears after 4 seconds
         hideProgressBar: false,
