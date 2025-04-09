@@ -7,7 +7,7 @@ import AuthContext from "../AuthContext/AuthContext";
 
 const FinanceProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
-  const { fetchData, createData, deleteData } = useApi(
+  const { fetchData, createData, deleteData, updateData } = useApi(
     "https://focus-nest-server.vercel.app/api/money"
   );
 
@@ -161,6 +161,30 @@ const FinanceProvider = ({ children }) => {
     toast.success("You have added Expense Money");
   };
 
+  // Generic update function for earnings or expenses
+  const updateItem = async (updatedItem, setState) => {
+    const { _id, ...data } = updatedItem;
+    try {
+      await updateData(_id, data);
+      setState((prev) =>
+        prev?.map((item) => (item._id === _id ? updatedItem : item))
+      );
+      toast.success("You have Updated Data Successfully");
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
+  };
+
+  // Update earning
+  const updateEarning = (updatedItem) => {
+    updateItem(updatedItem, setEarnings);
+  };
+
+  // Update expense
+  const updateExpense = (updatedItem) => {
+    updateItem(updatedItem, setExpenses);
+  };
+
   // Function to delete an earning
   const deleteEarning = (id) => {
     const confirmDelete = window.confirm(
@@ -188,6 +212,8 @@ const FinanceProvider = ({ children }) => {
       value={{
         addEarning,
         addExpense,
+        updateEarning,
+        updateExpense,
         earnings,
         expenses,
         deleteEarning,

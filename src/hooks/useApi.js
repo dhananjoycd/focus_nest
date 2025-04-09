@@ -42,18 +42,18 @@ const useApi = (baseUrl) => {
     }
   };
 
-  // Update (PUT/PATCH Request)
-  const updateData = async (endpoint = "", id, updatedData, method = "PUT") => {
+  // Update one (PUT/PATCH Request)
+  const updateData = async (id, data, method = "PUT") => {
     setLoading(true);
     try {
-      const url = `${baseUrl}/${endpoint}/${id}`;
-      // eslint-disable-next-line no-unused-vars
+      const url = `${baseUrl}/${id}`;
+      console.log("update data see", data);
       const response =
         method === "PATCH"
-          ? await axios.patch(url, updatedData)
-          : await axios.put(url, updatedData);
-
+          ? await axios.patch(url, data)
+          : await axios.put(url, data);
       setError(null);
+      return response.data;
     } catch (err) {
       setError(err.message);
     }

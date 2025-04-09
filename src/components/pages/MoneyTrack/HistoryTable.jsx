@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import PropTypes from "prop-types";
 import { motion, AnimatePresence } from "framer-motion";
 
-const HistoryTable = ({ type, data, btn }) => {
+const HistoryTable = ({ type, data, btn, onEdit }) => {
   return (
     <div className="overflow-x-auto bg-gray-200">
       <table className="table">
@@ -41,7 +41,10 @@ const HistoryTable = ({ type, data, btn }) => {
                     {format(item.date, "dd MMM yyyy hh:mm:ss a")}
                   </td>
                   <td className="flex">
-                    <button className="btn btn-sm me-1 btn-warning">
+                    <button
+                      className="btn btn-sm me-1 btn-warning"
+                      onClick={() => onEdit(item)}
+                    >
                       <FilePenLine />
                     </button>
                     <button

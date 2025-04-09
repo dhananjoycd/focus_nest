@@ -13,11 +13,14 @@ const FinancialSection = ({ type }) => {
     expenses,
     deleteEarning,
     deleteExpense,
+    updateExpense,
+    updateEarning,
     results,
   } = useContext(FinanceContext);
 
   const [itemsToShow, setItemsToShow] = useState(10);
   const [customInput, setCustomInput] = useState("");
+  const [editingItem, setEditingItem] = useState(null);
 
   const rawData =
     results?.length > 0 ? results : type === "Earnings" ? earnings : expenses;
@@ -83,40 +86,41 @@ const FinancialSection = ({ type }) => {
         {/* Add Record Button + Modal */}
         <section className="my-3">
           {type === "Earnings" ? (
-            <>
-              <button
-                className="btn btn-primary w-full"
-                onClick={() =>
-                  document.getElementById("earningModal").showModal()
-                }
-              >
-                Add {type}
-              </button>
-              <FinancialModel
-                id="earningModal"
-                title="Add Earning"
-                type="Earnings"
-                onSubmit={addEarning}
-              />
-            </>
+            <button
+              className="btn btn-primary w-full"
+              onClick={() =>
+                document.getElementById("earningModal").showModal()
+              }
+            >
+              Add {type}
+            </button>
           ) : (
-            <>
-              <button
-                className="btn btn-secondary w-full"
-                onClick={() =>
-                  document.getElementById("expensesModal").showModal()
-                }
-              >
-                Add {type}
-              </button>
-              <FinancialModel
-                id="expensesModal"
-                title="Add Expenses"
-                type="Expenses"
-                onSubmit={addExpense}
-              />
-            </>
+            <button
+              className="btn btn-secondary w-full"
+              onClick={() =>
+                document.getElementById("expensesModal").showModal()
+              }
+            >
+              Add {type}
+            </button>
           )}
+
+          <FinancialModel
+            id={type === "Earnings" ? "earningModal" : "expensesModal"}
+            title={`Add ${type}`}
+            type={type}
+            onSubmit={(endpoint, data, isEdit) => {
+              if (isEdit) {
+                type === "Earnings" ? updateEarning(data) : updateExpense(data);
+              } else {
+                type === "Earnings"
+                  ? addEarning(endpoint, data)
+                  : addExpense(endpoint, data);
+              }
+              setEditingItem(null);
+            }}
+            editData={editingItem}
+          />
         </section>
 
         {/* History Table */}
@@ -124,6 +128,14 @@ const FinancialSection = ({ type }) => {
           type={type}
           data={slicedData}
           btn={type === "Earnings" ? deleteEarning : deleteExpense}
+          onEdit={(item) => {
+            setEditingItem(item);
+            document
+              .getElementById(
+                type === "Earnings" ? "earningModal" : "expensesModal"
+              )
+              .showModal();
+          }}
         />
       </section>
 
