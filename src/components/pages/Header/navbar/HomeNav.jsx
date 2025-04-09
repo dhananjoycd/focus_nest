@@ -118,7 +118,7 @@ const HomeNav = ({ children }) => {
               >
                 <img
                   className="h-10 w-10 rounded-full ring-2 ring-white/80 hover:ring-indigo-300 transition duration-300"
-                  src={user.photoURL}
+                  src={user?.photoURL}
                   alt="User profile"
                 />
                 <motion.div
@@ -142,9 +142,9 @@ const HomeNav = ({ children }) => {
                       <p className="text-xs text-gray-500">Signed in as</p>
                       <p className="text-sm font-semibold text-gray-900 truncate">
                         <p className="text-xs text-indigo-600">
-                          {user.displayName}
+                          {user?.displayName}
                         </p>
-                        ({user.email})
+                        ({user?.email})
                       </p>
                     </div>
                     <div className="py-1">
@@ -228,9 +228,9 @@ const HomeNav = ({ children }) => {
           >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {menuItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href="#"
+                  to={item.path}
                   className={`flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium ${
                     activeTab === item.name
                       ? "bg-indigo-800 text-white"
@@ -243,46 +243,56 @@ const HomeNav = ({ children }) => {
                 >
                   <span className="text-lg">{item.icon}</span>
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
 
             {/* Mobile profile area */}
-            <div className="pt-4 pb-3 border-t border-indigo-600/50">
-              <div className="flex items-center px-5 pb-3">
-                <div className="flex-shrink-0">
-                  <img
-                    className="h-10 w-10 rounded-full ring-2 ring-indigo-300"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt="User"
-                  />
+            {user && (
+              <div className="pt-4 pb-3 border-t border-indigo-600/50">
+                <div className="flex items-center px-5 pb-3">
+                  <div className="flex-shrink-0">
+                    <img
+                      className="h-10 w-10 rounded-full ring-2 ring-indigo-300"
+                      src={user?.photoURL}
+                      alt="User"
+                    />
+                  </div>
+                  <div className="ml-3">
+                    <div className="text-base font-bold text-white">
+                      {user?.displayName}
+                    </div>
+                    <div className="text-sm font-medium text-indigo-200">
+                      ({user?.email})
+                    </div>
+                  </div>
                 </div>
-                <div className="ml-3">
-                  <div className="text-base font-bold text-white">
-                    User Name
-                  </div>
-                  <div className="text-sm font-medium text-indigo-200">
-                    user@focusnest.com
-                  </div>
+
+                <div className="px-2 space-y-1">
+                  {additionalMenuItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.path}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-base ${
+                        item.isSignOut
+                          ? "text-red-200 hover:bg-red-600/30"
+                          : "text-indigo-200 hover:bg-indigo-600"
+                      } font-medium transition-colors`}
+                      onClick={() => {
+                        setActiveTab(item.name);
+                        if (item.isSignOut) {
+                          signOutUser();
+                        }
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      <span>{item.icon}</span>
+                      {item.name}
+                    </Link>
+                  ))}
                 </div>
               </div>
-              <div className="px-2 space-y-1">
-                {additionalMenuItems.map((item) => (
-                  <a
-                    key={item.name}
-                    href="#"
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-base ${
-                      item.isSignOut
-                        ? "text-red-200 hover:bg-red-600/30"
-                        : "text-indigo-200 hover:bg-indigo-600"
-                    } font-medium transition-colors`}
-                  >
-                    <span>{item.icon}</span>
-                    {item.name}
-                  </a>
-                ))}
-              </div>
-            </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

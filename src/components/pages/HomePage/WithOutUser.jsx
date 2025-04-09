@@ -62,7 +62,7 @@ const WithOutUser = () => {
             </p>
             <div className="mt-3">
               <a
-                href="/login"
+                href="/signin"
                 className="inline-block px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded hover:bg-yellow-600 transition"
               >
                 Go to Sign In

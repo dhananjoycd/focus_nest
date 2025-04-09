@@ -29,7 +29,7 @@ const SignIn = () => {
 
     try {
       await userSign(formData.email, formData.password);
-      navigate(from);
+      navigate(from || "/profile");
     } catch (error) {
       setFirebaseError("Check Again! You have entered Invalid Data"); // ✅ Extract error message
     } finally {

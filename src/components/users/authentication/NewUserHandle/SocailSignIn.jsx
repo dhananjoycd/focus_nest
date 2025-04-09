@@ -6,7 +6,7 @@ const SocailSignIn = () => {
   const { googleSign } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location?.state || "/";
+  const from = location?.state || "/profile";
   return (
     <>
       <div className="flex w-1/4 items-center justify-center mx-auto my-4">

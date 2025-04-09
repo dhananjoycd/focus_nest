@@ -3,9 +3,10 @@ import AuthContext from "../../../Providers/AuthContext/AuthContext";
 import { Camera } from "lucide-react";
 import useImageUpload from "../../../hooks/useImageUpload";
 import { toast } from "react-toastify";
+import Loader from "../../../hooks/Loader";
 
 const ProfileHeader = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading: authLoading } = useContext(AuthContext);
   const { uploadImage, loading } = useImageUpload();
   const [profileImage, setProfileImage] = useState(
     user?.photoURL ||
@@ -34,8 +35,14 @@ const ProfileHeader = () => {
     }
   };
 
-  console.log(user);
+  if (authLoading) {
+    return <Loader />;
+  }
 
+  if (!user?.role) {
+    window.location.href = "/profile";
+    return null;
+  }
   return (
     <div className="relative w-full rounded-t-xl">
       {/* Cover Photo */}
@@ -102,7 +109,7 @@ const ProfileHeader = () => {
             {user?.displayName}
           </h2>
           <p className="text-red-600 border my-2 border-amber-400">
-            {user?.role}
+            {user?.role || "Refresh Your Browser"}
           </p>
         </div>
       </div>
