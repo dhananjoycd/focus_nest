@@ -165,9 +165,11 @@ const FinanceProvider = ({ children }) => {
   const updateItem = async (updatedItem, setState) => {
     const { _id, ...data } = updatedItem;
     try {
-      await updateData(_id, data);
+      await updateData(_id, { ...data, dataEdited: true });
       setState((prev) =>
-        prev?.map((item) => (item._id === _id ? updatedItem : item))
+        prev?.map((item) =>
+          item._id === _id ? { ...data, dataEdited: true } : item
+        )
       );
       toast.success("You have Updated Data Successfully");
     } catch (error) {
@@ -176,6 +178,7 @@ const FinanceProvider = ({ children }) => {
   };
 
   // Update earning
+
   const updateEarning = (updatedItem) => {
     updateItem(updatedItem, setEarnings);
   };

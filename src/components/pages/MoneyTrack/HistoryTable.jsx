@@ -1,10 +1,17 @@
 /* eslint-disable react/prop-types */
-import { FilePenLine, Trash2 } from "lucide-react";
+import { FilePenLine, Pencil, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import PropTypes from "prop-types";
 import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const HistoryTable = ({ type, data, btn, onEdit }) => {
+  const [sortedData, setSortedData] = useState([]);
+
+  useEffect(() => {
+    const sorted = data.sort((a, b) => new Date(b.date) - new Date(a.date));
+    setSortedData(sorted);
+  }, [data]);
   return (
     <div className="overflow-x-auto bg-gray-200">
       <table className="table">
@@ -23,8 +30,8 @@ const HistoryTable = ({ type, data, btn, onEdit }) => {
         {/* Table Body */}
         <tbody className="text-center">
           <AnimatePresence>
-            {data?.length > 0 ? (
-              data.map((item, index) => (
+            {sortedData?.length > 0 ? (
+              sortedData.map((item, index) => (
                 <motion.tr
                   key={item._id || index}
                   initial={{ opacity: 0, y: 10 }}
@@ -33,7 +40,33 @@ const HistoryTable = ({ type, data, btn, onEdit }) => {
                   transition={{ duration: 0.5 }}
                   className="border-b-gray-50 hover:bg-amber-50 shadow"
                 >
-                  <th>{index + 1}</th>
+                  <th className="relative px-4 py-3 group">
+                    <div className="flex items-center justify-start gap-1.5">
+                      <span className="font-medium text-gray-800 dark:text-gray-200">
+                        {index + 1}
+                      </span>
+
+                      {item.dataEdited && (
+                        <span className="flex items-center gap-1 text-xs transition-all duration-300 transform hover:scale-110">
+                          <Pencil className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 animate-pulse" />
+
+                          {/* Text that appears on hover or always on larger screens */}
+                          <span className="hidden sm:inline-flex items-center font-mono text-xs text-amber-600 dark:text-amber-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200 italic ml-0.5">
+                            edited
+                          </span>
+
+                          {/* Tooltip for mobile */}
+                          <span className="sm:hidden absolute left-full ml-2 px-2 py-1 bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-100 text-xs rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                            This item was edited
+                          </span>
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Optional decorative element */}
+                    <div className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-amber-400/30 to-transparent w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </th>
+
                   <td>{item.source}</td>
                   <td>{item.type}</td>
                   <td className="text-black">{item.amount}</td>

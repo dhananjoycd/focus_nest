@@ -1,8 +1,8 @@
-I'm currently working on a MERN stack web application called **FocusNest**. Here's a summary of your present project setup:
+I'm currently working on a MERN stack web application called **Focus Nest**. Here's a summary of your present project setup:
 
 ---
 
-### **Project Name: FocusNest**
+### **Project Name: Focus Nest**
 
 **Goal:**  
 A mega productivity and success-focused web app that helps individuals become ideal and achieve their goals.
