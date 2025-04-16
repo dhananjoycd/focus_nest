@@ -8,7 +8,7 @@ const EditProfile = () => {
   const [formData, setFormData] = useState({
     displayName: user?.displayName || "John Doe",
     email: user?.email || "johndoe@example.com",
-    bio: user?.bio || "Full Stack Developer",
+    bio: user?.bio || "Full Stack Web Developer",
   });
 
   const handleChange = (e) => {
@@ -25,9 +25,6 @@ const EditProfile = () => {
 
       setUser((p) => ({ ...p, ...formData }));
 
-      // Update global user state instantly
-      console.log("Current User:", user);
-
       toast.success(response.data.message, { position: "top-right" });
     } catch (error) {
       toast.error(
@@ -42,33 +39,65 @@ const EditProfile = () => {
   };
 
   return (
-    <form className="space-y-4 shadow p-3">
-      <input
-        type="text"
-        name="displayName"
-        value={formData.displayName}
-        onChange={handleChange}
-        className="border p-2 text-gray-600 w-full"
-      />
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        className="border p-2 text-gray-600 w-full"
-        disabled
-      />
-      <textarea
-        name="bio"
-        value={formData.bio}
-        onChange={handleChange}
-        className="border p-2 text-gray-600 w-full"
-      ></textarea>
+    <form className="space-y-6 shadow-lg rounded-xl p-6 bg-gradient-to-br from-blue-50 to-purple-50 max-w-md mx-auto">
+      <div className="space-y-2">
+        <label
+          htmlFor="displayName"
+          className="block text-sm font-medium text-purple-700"
+        >
+          Display Name
+        </label>
+        <input
+          type="text"
+          id="displayName"
+          name="displayName"
+          value={formData.displayName}
+          onChange={handleChange}
+          className="border-2 border-purple-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 rounded-lg p-3 w-full transition duration-200 text-gray-700 placeholder-purple-300"
+          placeholder="Enter your name"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-purple-700"
+        >
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          className="border-2 border-gray-200 bg-gray-100 rounded-lg p-3 w-full text-gray-600 cursor-not-allowed"
+          disabled
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label
+          htmlFor="bio"
+          className="block text-sm font-medium text-purple-700"
+        >
+          Bio
+        </label>
+        <textarea
+          id="bio"
+          name="bio"
+          value={formData.bio}
+          onChange={handleChange}
+          className="border-2 border-purple-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 rounded-lg p-3 w-full h-32 transition duration-200 text-gray-700 placeholder-purple-300"
+          placeholder="Tell us about yourself..."
+        ></textarea>
+      </div>
+
       <button
         type="submit"
-        className="bg-blue-500 text-white py-2 px-4 rounded"
         onClick={handleUpdateProfile}
+        className="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5"
       >
-        Save
+        Save Profile
       </button>
     </form>
   );

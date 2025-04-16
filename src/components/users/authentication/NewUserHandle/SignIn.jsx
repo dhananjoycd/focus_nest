@@ -11,6 +11,7 @@ const SignIn = () => {
   const { userSign, loading, setLoading } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+  console.log(location.state);
   const from = location.state || "/";
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [firebaseError, setFirebaseError] = useState("");
@@ -28,7 +29,7 @@ const SignIn = () => {
 
     try {
       await userSign(formData.email, formData.password);
-      navigate(from || "/profile");
+      navigate(from);
     } catch (error) {
       setFirebaseError("Check Again! You have entered Invalid Data");
     } finally {

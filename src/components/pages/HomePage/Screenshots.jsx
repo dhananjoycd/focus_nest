@@ -1,9 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import CurrentStatus from "../MoneyTrack/CurrentStatus/CurrentStatus";
 
-const Screenshots = () => {
+const Screenshots = ({ user }) => {
   const [index, setIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -23,6 +25,7 @@ const Screenshots = () => {
       color: "bg-emerald-50",
       navigateUrl: "/money",
       navigateTitle: "Explore Money Manager",
+      isValidUser: user.email,
     },
     {
       id: 3,
@@ -56,7 +59,6 @@ const Screenshots = () => {
       navigateUrl: "/",
       navigateTitle: "View Class Rep Tools",
     },
-
     {
       id: 4,
       title: "📊 Goal Tracker & Daily Tasks",
@@ -75,7 +77,6 @@ const Screenshots = () => {
     },
   ];
 
-  // Auto-play functionality
   useEffect(() => {
     let interval;
     if (isAutoPlaying) {
@@ -86,12 +87,66 @@ const Screenshots = () => {
     return () => clearInterval(interval);
   }, [index, isAutoPlaying, screenshots.length]);
 
-  const next = () => {
-    setIndex((prev) => (prev + 1) % screenshots.length);
-  };
-
-  const prev = () => {
+  const next = () => setIndex((prev) => (prev + 1) % screenshots.length);
+  const prev = () =>
     setIndex((prev) => (prev === 0 ? screenshots.length - 1 : prev - 1));
+
+  const renderContent = (item) => {
+    if (item.isValidUser) {
+      return (
+        <div className={`p-4 sm:p-6 ${item.color}`}>
+          <CurrentStatus />
+          <Link
+            to={item.navigateUrl}
+            className="inline-flex items-center justify-center gap-2 mt-4 w-full text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-2 rounded-full shadow-md hover:shadow-lg transition duration-300 hover:scale-105"
+          >
+            {item.navigateTitle}
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      );
+    }
+
+    return (
+      <div className={`p-4 sm:p-6 ${item.color}`}>
+        <div className="flex flex-col md:flex-row gap-6 items-center">
+          <div className="w-full md:w-1/2">
+            <img
+              src={item.url}
+              alt={item.title}
+              className="w-full h-60 sm:h-72 md:h-80 lg:h-96 object-cover rounded-lg shadow-md"
+            />
+          </div>
+          <div className="w-full md:w-1/2 flex flex-col justify-center">
+            <h3 className="text-2xl font-bold mb-3 text-gray-800">
+              {item.title}
+            </h3>
+            <p className="text-gray-600 mb-4">{item.description}</p>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-left text-gray-700">
+              {item.features.map((feature, i) => (
+                <motion.li
+                  key={i}
+                  className="flex items-start py-1"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 * i }}
+                >
+                  <span className="mr-2 text-blue-500 mt-0.5">✓</span>
+                  <span className="text-sm sm:text-base">{feature}</span>
+                </motion.li>
+              ))}
+            </ul>
+            <Link
+              to={item.navigateUrl}
+              className="inline-flex items-center justify-center gap-2 mt-4 text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-2 rounded-full shadow-md hover:shadow-lg transition duration-300 hover:scale-105"
+            >
+              {item.navigateTitle}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -112,9 +167,9 @@ const Screenshots = () => {
           </p>
         </motion.div>
 
-        {/* Carousel Container */}
+        {/* Carousel */}
         <div
-          className="relative overflow-hidden rounded-xl md:rounded-2xl shadow-lg max-w-4xl mx-auto"
+          className="relative overflow-hidden rounded-xl md:rounded-2xl shadow-lg max-w-5xl mx-auto bg-white"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
@@ -125,53 +180,12 @@ const Screenshots = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className={`p-6 ${screenshots[index].color}`}
             >
-              <div className="flex flex-col md:flex-row gap-6">
-                {/* Image */}
-                <div className="w-full md:w-1/2">
-                  <img
-                    src={screenshots[index].url}
-                    alt={screenshots[index].title}
-                    className="w-full h-64 md:h-80 object-cover rounded-lg shadow-md"
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="w-full md:w-1/2 flex flex-col justify-center">
-                  <h3 className="text-2xl font-bold mb-3 text-gray-800">
-                    {screenshots[index].title}
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    {screenshots[index].description}
-                  </p>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-left text-gray-700">
-                    {screenshots[index].features.map((feature, i) => (
-                      <motion.li
-                        key={i}
-                        className="flex items-start py-1"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 * i }}
-                      >
-                        <span className="mr-2 text-blue-500 mt-0.5">✓</span>
-                        <span className="text-sm sm:text-base">{feature}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-                  <Link
-                    to={screenshots[index].navigateUrl}
-                    className="inline-flex items-center justify-center gap-2 mt-4 text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-2 rounded-full shadow-md hover:shadow-lg transition duration-300 hover:scale-105"
-                  >
-                    {screenshots[index].navigateTitle}
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </div>
+              {renderContent(screenshots[index])}
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation Arrows */}
+          {/* Arrows */}
           <button
             onClick={prev}
             className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/90 p-2 md:p-3 rounded-full shadow-md hover:bg-white transition-all z-10"
@@ -214,7 +228,7 @@ const Screenshots = () => {
           </button>
         </div>
 
-        {/* Indicator Dots */}
+        {/* Dots */}
         <div className="flex justify-center mt-6 space-x-2">
           {screenshots.map((_, i) => (
             <button

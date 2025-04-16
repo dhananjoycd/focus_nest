@@ -1,29 +1,25 @@
 import PropTypes from "prop-types";
 import HistoryTable from "./HistoryTable";
-import FinancialModel from "./FinancialModel";
 import { useContext, useEffect, useState } from "react";
 import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
 import FinancailHead from "./FinancailHead";
 import Search from "./Search";
+import AddMoneyData from "./AddMoneyData";
 
 const FinancialSection = ({ type }) => {
   const {
-    addEarning,
-    addExpense,
     earnings,
     expenses,
     deleteEarning,
     deleteExpense,
-    updateExpense,
-    updateEarning,
     results,
     setResults,
     user,
+    setEditingItem,
   } = useContext(FinanceContext);
 
   const [itemsToShow, setItemsToShow] = useState(10);
   const [customInput, setCustomInput] = useState("");
-  const [editingItem, setEditingItem] = useState(null);
 
   const rawData =
     results?.length > 0 ? results : type === "Earnings" ? earnings : expenses;
@@ -94,44 +90,7 @@ const FinancialSection = ({ type }) => {
         </div>
 
         {/* Add Record Button + Modal */}
-        <section className="my-3">
-          {type === "Earnings" ? (
-            <button
-              className="btn btn-primary w-full"
-              onClick={() =>
-                document.getElementById("earningModal").showModal()
-              }
-            >
-              Add {type}
-            </button>
-          ) : (
-            <button
-              className="btn btn-secondary w-full"
-              onClick={() =>
-                document.getElementById("expensesModal").showModal()
-              }
-            >
-              Add {type}
-            </button>
-          )}
-
-          <FinancialModel
-            id={type === "Earnings" ? "earningModal" : "expensesModal"}
-            title={`Add ${type}`}
-            type={type}
-            onSubmit={(endpoint, data, isEdit) => {
-              if (isEdit) {
-                type === "Earnings" ? updateEarning(data) : updateExpense(data);
-              } else {
-                type === "Earnings"
-                  ? addEarning(endpoint, data)
-                  : addExpense(endpoint, data);
-              }
-              setEditingItem(null);
-            }}
-            editData={editingItem}
-          />
-        </section>
+        <AddMoneyData type={type}></AddMoneyData>
 
         {/* History Table */}
         <HistoryTable

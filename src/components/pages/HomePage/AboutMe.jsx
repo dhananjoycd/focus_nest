@@ -125,7 +125,7 @@ const AboutMe = () => {
   return (
     <section
       ref={ref}
-      className="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-indigo-50 relative overflow-hidden"
+      className="py-16 md:py-10 bg-gradient-to-br from-gray-50 to-indigo-50 relative overflow-hidden"
       id="about"
     >
       {/* Floating animated elements */}
@@ -203,10 +203,11 @@ const AboutMe = () => {
               >
                 <div className="absolute inset-0 bg-indigo-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-full" />
                 <img
-                  src="../../../../public/FocusNestOwner.jpg"
+                  src="https://i.ibb.co.com/zh5rCvBr/focus-Nest-Owner.jpg"
                   alt="Dhananjoy Chandra Das"
                   className="object-cover w-full h-full"
                 />
+
                 <motion.div
                   className="absolute inset-0 rounded-full border-4 border-transparent"
                   animate={{
@@ -299,13 +300,13 @@ const AboutMe = () => {
               {/* Description with animated highlights */}
               <motion.p
                 variants={itemVariants}
-                className="text-gray-700 mb-6 text-lg leading-relaxed"
+                className="text-gray-700 mb-6 text-base sm:text-lg md:text-xl leading-relaxed max-w-4xl mx-auto px-4 sm:px-6 lg:px-0"
               >
                 I&apos;m a{" "}
-                <span className="font-semibold text-indigo-600 relative inline-block">
+                <span className="font-semibold text-indigo-600">
                   Mathematics student
                   <motion.span
-                    className="absolute bottom-0 left-0 h-0.5 bg-indigo-600"
+                    className="absolute bottom-0 left-0 h-0.5  "
                     variants={textHighlightVariants}
                     initial="hidden"
                     animate="visible"
@@ -313,10 +314,10 @@ const AboutMe = () => {
                   />
                 </span>{" "}
                 at the University of Rajshahi, a passionate{" "}
-                <span className="font-semibold text-indigo-600 relative inline-block">
+                <span className="font-semibold text-indigo-600">
                   MERN Stack Web Developer
                   <motion.span
-                    className="absolute bottom-0 left-0 h-0.5 bg-indigo-600"
+                    className="absolute bottom-0 left-0 h-0.5  "
                     variants={textHighlightVariants}
                     initial="hidden"
                     animate="visible"
@@ -324,10 +325,10 @@ const AboutMe = () => {
                   />
                 </span>
                 , a{" "}
-                <span className="font-semibold text-indigo-600 relative inline-block">
+                <span className="font-semibold text-indigo-600">
                   teacher
                   <motion.span
-                    className="absolute bottom-0 left-0 h-0.5 bg-indigo-600"
+                    className="absolute bottom-0 left-0 h-0.5  "
                     variants={textHighlightVariants}
                     initial="hidden"
                     animate="visible"
@@ -335,10 +336,10 @@ const AboutMe = () => {
                   />
                 </span>{" "}
                 at Anirban coaching center, and a rising{" "}
-                <span className="font-semibold text-indigo-600 relative inline-block">
+                <span className="font-semibold text-indigo-600">
                   researcher
                   <motion.span
-                    className="absolute bottom-0 left-0 h-0.5 bg-indigo-600"
+                    className="absolute bottom-0 left-0 h-0.5  "
                     variants={textHighlightVariants}
                     initial="hidden"
                     animate="visible"
@@ -418,7 +419,7 @@ const AboutMe = () => {
         transition={{ duration: 0.5, delay: 0.6 }}
       >
         <motion.a
-          href="../../../../public/Dhananjoy_Chandra_Das_CV Final.pdf"
+          href="https://drive.google.com/uc?export=download&id=1AcOKovHhRg6kGBTzJ0tCDfn7qlXY71K5"
           download
           className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
           whileHover={{ scale: 1.05 }}

@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import PropTypes from "prop-types"; // Import PropTypes
+import PropTypes from "prop-types";
 import { Navigate, useLocation } from "react-router-dom";
 import PageTransition from "../../Providers/AnimationProvider/PageTransition";
 import AuthContext from "../../Providers/AuthContext/AuthContext";
@@ -10,10 +10,10 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!user?.emailVerified && !loading && location.pathname !== "/profile") {
-      toast.warning("You are not a valid user to access this page", {
+    if (!loading && location.pathname !== "/profile" && !user.emailVerified) {
+      toast.warning("Please verify your email address!", {
         position: "top-center",
-        autoClose: 1200, // Message disappears after 4 seconds
+        autoClose: 1200,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -27,7 +27,7 @@ const PrivateRoute = ({ children }) => {
         progressStyle: { background: "#c82333" },
       });
     }
-  }, [user?.emailVerified, location.pathname, loading]);
+  }, [user, loading, location.pathname]);
 
   if (loading) {
     return (
@@ -38,17 +38,19 @@ const PrivateRoute = ({ children }) => {
   }
 
   if (!user) {
-    return <Navigate to="/signIn" state={location?.pathname}></Navigate>;
+    return <Navigate to="/signIn" state={location?.pathname} />;
   }
 
   // Allow access to the profile page even if email is not verified
-  if (!user.emailVerified && location.pathname !== "/profile") {
-    return <Navigate to="/profile" state={location?.pathname}></Navigate>;
+  if (user && !user.emailVerified && location.pathname !== "/profile") {
+    return <Navigate to="/profile" state={location?.pathname} />;
   }
+
   return children;
 };
 
 PrivateRoute.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
 export default PrivateRoute;

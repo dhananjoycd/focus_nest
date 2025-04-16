@@ -81,7 +81,7 @@ const FeaturesDemo = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-white to-gray-50">
+    <section className="text-center py-16 md:py-24 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -128,23 +128,34 @@ const FeaturesDemo = () => {
                 {feature.title}
               </h3>
               <p className="text-gray-600 mb-4">{feature.description}</p>
-              <div className="mt-4">
-                <button className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center">
-                  Learn more
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 ml-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+              <div className="mt-8 text-center">
+                <button className="group relative inline-flex items-center justify-center px-6 py-3 font-medium overflow-hidden rounded-full shadow-sm border border-indigo-100 bg-gradient-to-r from-blue-50 to-purple-50 text-indigo-600 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:border-indigo-200">
+                  {/* Animated gradient layer (hidden by default) */}
+                  <span className="absolute inset-0 bg-gradient-to-r from-indigo-100 to-purple-200 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+
+                  {/* Shining dot animation */}
+                  <span className="absolute top-0 left-0 w-2 h-2 rounded-full bg-white opacity-70 group-hover:animate-[shine_1.5s_ease-in-out_infinite]"></span>
+
+                  {/* Button content */}
+                  <span className="relative flex items-center text-sm">
+                    <span className="transition-all duration-300 group-hover:pr-1">
+                      Learn more
+                    </span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 ml-2 transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
                       strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </span>
                 </button>
               </div>
             </motion.div>

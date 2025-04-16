@@ -14,6 +14,7 @@ const FinanceProvider = ({ children }) => {
   const [results, setResults] = useState([]);
   const [earnings, setEarnings] = useState([]);
   const [expenses, setExpenses] = useState([]);
+  const [editingItem, setEditingItem] = useState(null);
 
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
@@ -245,6 +246,8 @@ const FinanceProvider = ({ children }) => {
         user,
         results,
         setResults,
+        editingItem,
+        setEditingItem,
       }}
     >
       {children}
