@@ -55,7 +55,6 @@ Here are the **key features** for an **Income & Expense Management Dashboard** s
 #### 6. **Search and Filter**
 
 - Filter by date, type (income/expense), category, or keyword (e.g., "Food").
-- Sort by latest, highest, or lowest amount.
 
 #### 7. **Responsive UI/UX**
 
@@ -74,15 +73,9 @@ Here are the **key features** for an **Income & Expense Management Dashboard** s
 - Update: Edit incorrect entries.
 - Delete: Remove unwanted entries.
 
-#### 10. **Data Export (Optional)**
+#### 10. **Data Export**
 
 - Export transaction data PDF for offline use.
-
----
-
-These features offer a complete and user-friendly way to manage personal finances and visualize them effectively.
-
-Would you like a visual wireframe or chart example next?
 
 ---
 
@@ -128,5 +121,16 @@ Would you like a visual wireframe or chart example next?
 ### **Hosting:**
 
 - **Frontend** hosted on **Firebase Hosting** (Successfully set up)
+
+---
+
+---
+
+## 👨‍💻 Developer Info
+
+**Author:** Dhananjoy Chandra Das  
+**Role:** Full-Stack Developer (MERN) | B.Sc. in Mathematics (Hons.), University of Rajshahi  
+**Goals:** Build practical tools that improve productivity, clarity, and life management.  
+**Contact:** [GitHub](https://github.com/dhananjoycd) • [LinkedIn](https://linkedin.com/in/dhananjoycd) • [Email](mailto:dhananjoychandradas@gmail.com) • [Phone](+8801609000223)
 
 ---
