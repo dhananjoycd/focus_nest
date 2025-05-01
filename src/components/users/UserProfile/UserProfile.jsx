@@ -1,14 +1,11 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import PageTransition from "../../../Providers/AnimationProvider/PageTransition";
 import ProfileHeader from "./ProfileHeader";
 import ProfileInfo from "./ProfileInfo";
 import EditProfile from "./EditProfile";
 import Settings from "./Settings";
-import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
 
 const UserProfile = () => {
-  const { totalEarnings, totalExpenses } = useContext(FinanceContext);
-
   const [activeTab, setActiveTab] = useState("info");
 
   return (
@@ -38,38 +35,6 @@ const UserProfile = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-6 text-center">
-          <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md border-l-4 border-blue-500">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300">
-              Life Time Incomes
-            </h3>
-            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-              ৳ {totalEarnings.toLocaleString()}
-            </p>
-          </div>
-          <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md border-l-4 border-green-500">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300">
-              Life Time Expenses
-            </h3>
-            <p className="text-2xl font-bold text-green-600 dark:text-green-400">
-              ৳ {totalExpenses.toLocaleString()}
-            </p>
-          </div>
-          <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md border-l-4 border-purple-500">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300">
-              Savings Rate
-            </h3>
-            <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-              {totalExpenses &&
-                totalEarnings > 0 &&
-                (
-                  ((totalEarnings - totalExpenses) / totalEarnings) *
-                  100
-                ).toFixed(2)}
-              %
-            </p>
-          </div>
-        </div>
         {/* Render Active Tab */}
         <div className="mt-4">
           {activeTab === "info" && <ProfileInfo />}

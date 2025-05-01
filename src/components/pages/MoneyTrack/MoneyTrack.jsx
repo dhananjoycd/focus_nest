@@ -22,7 +22,7 @@ const MoneyTrack = () => {
 
         {/* Sidebar */}
         <aside
-          className={`fixed md:sticky dark:bg-gray-700 bg-gray-50 w-3/4 md:w-full md:top-10 md:left-0 md:col-span-3 lg:col-span-2 top-18 left-2  h-fit max-h-[90vh]  border border-gray-300 rounded-3xl p-3 shadow-lg z-40 transition-transform duration-300 ease-in-out
+          className={`fixed shadow md:sticky dark:bg-gray-700 bg-gray-50 w-3/4 md:w-full md:top-10 md:left-0 md:col-span-3 lg:col-span-2 top-18 left-2  h-fit max-h-[90vh]  border border-gray-300 rounded-3xl p-3  z-40 transition-transform duration-300 ease-in-out
           ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-160"
           } md:translate-x-0`}
@@ -75,7 +75,7 @@ const MoneyTrack = () => {
         </aside>
 
         {/* Content Section */}
-        <section className="flex-1 md:col-span-9 lg:col-span-10 ms-1 mt-5 shadow p-3 rounded-2xl w-full border border-white">
+        <section className="flex-1  md:col-span-9 lg:col-span-10 ms-1 mt-5 rounded-2xl w-full ">
           {activeTab === "dashboard" && <MoneyDashboard />}
           {activeTab === "earnings" && <Earnings />}
           {activeTab === "expenses" && <Expenses />}

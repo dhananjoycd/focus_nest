@@ -34,13 +34,13 @@ const useOperation = () => {
   const handleVerifyEmail = async () => {
     setLoading(true);
     try {
-      if (!firebaseUser.emailVerified) {
+      if (!firebaseUser?.emailVerified) {
         await sendEmailVerification(firebaseUser).then(() => {
           toast.success("Verification email sent. Check your inbox.");
         });
       }
 
-      if (firebaseUser.emailVerified) {
+      if (firebaseUser?.emailVerified) {
         toast.warn("Your Email have been verified");
         axios.put(`https://focus-nest-server.vercel.app/api/users/${userID}`, {
           emailVerified: true,
@@ -67,7 +67,7 @@ const useOperation = () => {
     setLoading(true);
     try {
       const credentials = EmailAuthProvider.credential(
-        firebaseUser.email,
+        firebaseUser?.email,
         password
       );
       await reauthenticateWithCredential(firebaseUser, credentials);
@@ -80,8 +80,9 @@ const useOperation = () => {
       } else {
         toast.error("Failed to delete account from MongoDB.");
       }
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      toast.error("Failed to delete account. " + error.message);
+      toast.error("Failed to delete , Password not matched!");
     }
     setLoading(false);
   };

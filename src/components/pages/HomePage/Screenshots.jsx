@@ -25,7 +25,7 @@ const Screenshots = ({ user }) => {
       color: "bg-emerald-50",
       navigateUrl: "/money",
       navigateTitle: "Explore Money Manager",
-      isValidUser: user.email,
+      isValidUser: user?.email || null,
     },
     {
       id: 3,

@@ -1,17 +1,18 @@
 /* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import PageTransition from "../../../../Providers/AnimationProvider/PageTransition";
 import SocailSignIn from "./SocailSignIn";
 import AuthContext from "../../../../Providers/AuthContext/AuthContext";
 import CommonMsg from "./CommonMsg";
 
 const SignUp = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { createUser, sendToServer } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const location = useLocation();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -69,7 +70,7 @@ const SignUp = () => {
         setLoading(true);
         await createUser(formData.email, formData.password, formData);
         alert("You have registered successfully!");
-        navigate("/profile");
+        <Navigate to="/profile" state={location?.pathname} />;
       } catch (error) {
         setFirebaseError(
           error.message || "Check Again! You have entered Invalid Data"

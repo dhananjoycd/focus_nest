@@ -16,6 +16,76 @@ A mega productivity and success-focused web app that helps individuals become id
 
 ---
 
+Here are the **key features** for an **Income & Expense Management Dashboard** suitable for students or professionals:
+
+---
+
+### 🔑 **Key Features**
+
+#### 1. **Transaction Entry System**
+
+- Add new income or expense manually.
+- Auto-capture date and time.
+- Tag transactions with `type` (e.g., Food, Gift, Salary).
+
+#### 2. **Categorization**
+
+- Classify each transaction as:
+  - **Income** (e.g., salary, gift)
+  - **Expense** (e.g., food, transport)
+- Custom categories can be added by the user.
+
+#### 3. **Daily & Monthly Tracking**
+
+- Show **daily summaries** (income, expense, balance).
+- Show **monthly summaries** with filters.
+- Date range selection (e.g., today, this week, this month).
+
+#### 4. **Dashboard Analytics**
+
+- **Total Income**, **Total Expense**, **Net Balance**.
+- Quick summary cards at the top.
+
+#### 5. **Graphical Insights**
+
+- **Bar Chart**: Monthly income vs. expenses.
+- **Pie Chart / Doughnut Chart**: Expense breakdown by category.
+- **Line Chart**: Income or expense trend over time.
+
+#### 6. **Search and Filter**
+
+- Filter by date, type (income/expense), category, or keyword (e.g., "Food").
+- Sort by latest, highest, or lowest amount.
+
+#### 7. **Responsive UI/UX**
+
+- Mobile and desktop friendly.
+- Clean and intuitive layout (e.g., tabbed views, cards, charts).
+
+#### 8. **User Authentication**
+
+- Secure login system using email/password or Google OAuth.
+- Only show transactions related to logged-in user (via UID).
+
+#### 9. **CRUD Functionality**
+
+- Create: Add new income or expense.
+- Read: View and filter transaction list.
+- Update: Edit incorrect entries.
+- Delete: Remove unwanted entries.
+
+#### 10. **Data Export (Optional)**
+
+- Export transaction data PDF for offline use.
+
+---
+
+These features offer a complete and user-friendly way to manage personal finances and visualize them effectively.
+
+Would you like a visual wireframe or chart example next?
+
+---
+
 ### **Frontend Stack:**
 
 - **React** 19

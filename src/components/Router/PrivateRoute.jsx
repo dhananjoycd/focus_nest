@@ -10,7 +10,7 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!loading && location.pathname !== "/profile" && !user.emailVerified) {
+    if (!loading && location.pathname !== "/profile" && !user?.emailVerified) {
       toast.warning("Please verify your email address!", {
         position: "top-center",
         autoClose: 1200,
@@ -42,7 +42,7 @@ const PrivateRoute = ({ children }) => {
   }
 
   // Allow access to the profile page even if email is not verified
-  if (user && !user.emailVerified && location.pathname !== "/profile") {
+  if (user && !user?.emailVerified && location.pathname !== "/profile") {
     return <Navigate to="/profile" state={location?.pathname} />;
   }
 

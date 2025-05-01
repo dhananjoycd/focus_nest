@@ -10,7 +10,7 @@ import AboutMe from "./AboutMe";
 import AuthContext from "../../../Providers/AuthContext/AuthContext";
 
 const HomePage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
 
   // Animation variants for section transitions
   const sectionVariants = {
@@ -28,6 +28,20 @@ const HomePage = () => {
       },
     },
   };
+
+  // Show Loader when loading is true
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-white">
+        <motion.div
+          className="w-24 h-24 border-8 border-blue-300 border-t-purple-600 rounded-full animate-spin"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring", stiffness: 150 }}
+        />
+      </div>
+    );
+  }
 
   return (
     <PageTransition>

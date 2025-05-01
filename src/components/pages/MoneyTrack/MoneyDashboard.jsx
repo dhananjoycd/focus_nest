@@ -7,7 +7,7 @@ const MoneyDashboard = () => {
   const { user } = useContext(FinanceContext);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-800 dark:via-gray-800 dark:to-gray-900 rounded-2xl shadow-lg">
+    <div className="max-w-4xl mx-auto p-5 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-800 dark:via-gray-800 dark:to-gray-900 rounded-2xl shadow">
       {/* Header with greeting */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>

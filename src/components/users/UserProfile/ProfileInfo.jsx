@@ -1,9 +1,11 @@
 import { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import AuthContext from "../../../Providers/AuthContext/AuthContext";
+import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
 
 const ProfileInfo = () => {
   let { user } = useContext(AuthContext);
+  const { totalEarnings, totalExpenses } = useContext(FinanceContext);
 
   // Enhanced user data with financial information
   user = {
@@ -67,6 +69,33 @@ const ProfileInfo = () => {
       animate="visible"
       variants={containerVariants}
     >
+      {/* Financial Goals */}
+      <motion.div variants={itemVariants}>
+        <div className="  my-6 text-center flex items-center justify-center gap-5">
+          <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md border-l-4 border-blue-500">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300">
+              Current Balance
+            </h3>
+            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+              ৳ {(totalEarnings - totalExpenses).toLocaleString()}
+            </p>
+          </div>
+          <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md border-l-4 border-green-500">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300">
+              Savings Rate
+            </h3>
+            <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+              {totalExpenses &&
+                totalEarnings > 0 &&
+                (
+                  ((totalEarnings - totalExpenses) / totalEarnings) *
+                  100
+                ).toFixed(2)}
+              %
+            </p>
+          </div>
+        </div>
+      </motion.div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
         {/* Personal Information */}
         <motion.div className="space-y-4" variants={containerVariants}>
@@ -83,7 +112,7 @@ const ProfileInfo = () => {
                 <div>
                   <p className="text-xs text-gray-400">Email</p>
                   <p className="text-gray-700 dark:text-gray-200">
-                    {user.email}
+                    {user?.email}
                   </p>
                 </div>
               </div>
@@ -116,33 +145,6 @@ const ProfileInfo = () => {
               </div>
             </div>
           </motion.div>
-
-          {/* Financial Goals */}
-          <motion.div
-            variants={itemVariants}
-            className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-sm"
-          >
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300 mb-2">
-              Financial Goals
-            </h3>
-            <div className="space-y-2">
-              {user.financialGoals.map((goal, index) => (
-                <div key={index} className="flex items-center">
-                  <span className="w-5 mr-2 text-purple-500">🎯</span>
-                  <p className="text-gray-700 dark:text-gray-200">{goal}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-          {/* Quick Action Buttons */}
-          <div className="mt-8 flex flex-wrap gap-3 justify-center">
-            <button className="flex items-center gap-2 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-lg hover:shadow-md transition-all">
-              <span>📊</span> View Reports
-            </button>
-            <button className="flex items-center gap-2 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 px-4 py-2 rounded-lg hover:shadow-md transition-all">
-              <span>🔔</span> Budget Alerts
-            </button>
-          </div>
         </motion.div>
 
         {/* Financial Overview */}
@@ -154,7 +156,7 @@ const ProfileInfo = () => {
             {/* edited */}
             <div className="space-y-4">
               <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">
-                Financial Goals
+                Goals Overview
               </h2>
               <div className="space-y-4">
                 {financialData.financialGoals.map((goal, index) => (
@@ -219,6 +221,15 @@ const ProfileInfo = () => {
             </p>
           </motion.div>
         </motion.div>
+      </div>
+      {/* Quick Action Buttons */}
+      <div className="mt-8 flex flex-wrap gap-3 justify-center">
+        <button className="flex items-center gap-2 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-lg hover:shadow-md transition-all">
+          <span>📊</span> View Reports
+        </button>
+        <button className="flex items-center gap-2 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 px-4 py-2 rounded-lg hover:shadow-md transition-all">
+          <span>🔔</span> Budget Alerts
+        </button>
       </div>
     </motion.div>
   );
