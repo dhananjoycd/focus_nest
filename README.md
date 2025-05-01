@@ -131,6 +131,6 @@ Here are the **key features** for an **Income & Expense Management Dashboard** s
 **Author:** Dhananjoy Chandra Das  
 **Role:** Full-Stack Developer (MERN) | B.Sc. in Mathematics (Hons.), University of Rajshahi  
 **Goals:** Build practical tools that improve productivity, clarity, and life management.  
-**Contact:** [GitHub](https://github.com/dhananjoycd) • [LinkedIn](https://linkedin.com/in/dhananjoycd) • [Email](mailto:dhananjoychandradas@gmail.com) • [Phone](+8801609000223)
+**Contact:** [GitHub](https://github.com/dhananjoycd) • [LinkedIn](https://linkedin.com/in/dhananjoycd) • [Email](mailto:dhananjoychandradas@gmail.com) • Phone:+8801609000223
 
 ---
