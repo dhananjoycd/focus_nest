@@ -45,6 +45,8 @@ Here are the **key features** for an **Income & Expense Management Dashboard** s
 
 - **Total Income**, **Total Expense**, **Net Balance**.
 - Quick summary cards at the top.
+- Multi-user team/shared dashboard (upcoming)
+- Budget alerts & reminders (upcoming)
 
 #### 5. **Graphical Insights**
 
@@ -121,8 +123,6 @@ Here are the **key features** for an **Income & Expense Management Dashboard** s
 ### **Hosting:**
 
 - **Frontend** hosted on **Firebase Hosting** (Successfully set up)
-
----
 
 ---
 
