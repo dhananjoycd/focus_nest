@@ -21,23 +21,28 @@ const FinanceProvider = ({ children }) => {
 
   const [todayEarnings, setTodayEarnings] = useState([]);
   const [todayExpenses, setTodayExpenses] = useState([]);
+  const [yesterdayEarnings, setYesterdayEarnings] = useState([]);
+  const [yesterdayExpenses, setYesterdayExpenses] = useState([]);
+  const [thisWeekEarnings, setThisWeekEarnings] = useState([]);
+  const [thisWeekExpenses, setThisWeekExpenses] = useState([]);
+  const [thisMonthEarnings, setThisMonthEarnings] = useState([]);
+  const [thisMonthExpenses, setThisMonthExpenses] = useState([]);
 
   const [last7DaysEarnings, setLast7DaysEarnings] = useState([]);
   const [last7DaysExpenses, setLast7DaysExpenses] = useState([]);
-
   const [last30DaysEarnings, setLast30DaysEarnings] = useState([]);
   const [last30DaysExpenses, setLast30DaysExpenses] = useState([]);
 
-  // pesonal,food...
   const [earningsCategories, setEarningsCategories] = useState([]);
   const [expensesCategories, setExpensesCategories] = useState([]);
-
   const [filteredEarningsTransactions, setFilteredEarningsTransactions] =
     useState([]);
   const [filteredExpensesTransactions, setFilteredExpensesTransactions] =
     useState([]);
 
   const [selectedType, setSelectedType] = useState("");
+  const rawEarningsData = results?.length > 0 ? results : earnings;
+  const rawExpensesData = results?.length > 0 ? results : expenses;
 
   useEffect(() => {
     const loadFinanceData = async () => {
@@ -45,18 +50,16 @@ const FinanceProvider = ({ children }) => {
         if (!user?.uid) return;
         const earningsData = await fetchData("earnings");
         const expensesData = await fetchData("expenses");
-
         setEarnings(earningsData);
         setExpenses(expensesData);
       } catch (error) {
         console.error("Error fetching finance data:", error);
       }
     };
-
     loadFinanceData();
   }, [user]);
 
-  // Total Amount Count
+  // Total amount calculation
   useEffect(() => {
     setTotalEarnings(
       earnings.reduce((sum, earning) => sum + Number(earning.amount), 0)
@@ -66,103 +69,114 @@ const FinanceProvider = ({ children }) => {
     );
   }, [earnings, expenses]);
 
-  // today, last 7 days, and last 30 days earnings and expenses
+  // Dynamic filter by date
   useEffect(() => {
-    const getFilteredData = (transactions, dateRange) => {
+    const filterByDate = (transactions, range) => {
       const today = new Date();
-      let startDate;
+      const currentDate = new Date();
 
-      if (dateRange === "today") {
-        startDate = today.toISOString().split("T")[0];
-      } else if (dateRange === "7days") {
-        startDate = new Date(today.setDate(today.getDate() - 7))
-          .toISOString()
-          .split("T")[0];
-      } else if (dateRange === "30days") {
-        startDate = new Date(today.setDate(today.getDate() - 30))
-          .toISOString()
-          .split("T")[0];
+      let startDate, endDate;
+
+      if (range === "today") {
+        startDate = new Date(today.setHours(0, 0, 0, 0));
+        endDate = new Date(today.setHours(23, 59, 59, 999));
+      } else if (range === "yesterday") {
+        const y = new Date(currentDate);
+        y.setDate(currentDate.getDate() - 1);
+        startDate = new Date(y.setHours(0, 0, 0, 0));
+        endDate = new Date(y.setHours(23, 59, 59, 999));
+      } else if (range === "thisweek") {
+        const firstDay = new Date(
+          today.setDate(today.getDate() - today.getDay())
+        );
+        startDate = new Date(firstDay.setHours(0, 0, 0, 0));
+        endDate = new Date(currentDate.setHours(23, 59, 59, 999));
+      } else if (range === "thismonth") {
+        startDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          1
+        );
+        endDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() + 1,
+          0,
+          23,
+          59,
+          59,
+          999
+        );
       }
 
-      return transactions.filter((transaction) => {
-        const transactionDate = new Date(transaction.date)
-          .toISOString()
-          .split("T")[0]; // Compare date in YYYY-MM-DD format
-        return transactionDate >= startDate; // Filter data within the date range
+      return transactions.filter((t) => {
+        const txDate = new Date(t.date);
+        return txDate >= startDate && txDate <= endDate;
       });
     };
 
-    setTodayEarnings(getFilteredData(earnings, "today"));
-    setTodayExpenses(getFilteredData(expenses, "today"));
-    setLast7DaysEarnings(getFilteredData(earnings, "7days"));
-    setLast7DaysExpenses(getFilteredData(expenses, "7days"));
-    setLast30DaysEarnings(getFilteredData(earnings, "30days"));
-    setLast30DaysExpenses(getFilteredData(expenses, "30days"));
-  }, [earnings, expenses]);
+    setTodayEarnings(filterByDate(rawEarningsData, "today"));
+    setTodayExpenses(filterByDate(rawExpensesData, "today"));
+    setYesterdayEarnings(filterByDate(rawEarningsData, "yesterday"));
+    setYesterdayExpenses(filterByDate(rawExpensesData, "yesterday"));
+    setThisWeekEarnings(filterByDate(rawEarningsData, "thisweek"));
+    setThisWeekExpenses(filterByDate(rawExpensesData, "thisweek"));
+    setThisMonthEarnings(filterByDate(rawEarningsData, "thismonth"));
+    setThisMonthExpenses(filterByDate(rawExpensesData, "thismonth"));
+    setLast7DaysEarnings(filterByDate(rawEarningsData, "last7"));
+    setLast7DaysExpenses(filterByDate(rawExpensesData, "last7"));
+    setLast30DaysEarnings(filterByDate(rawEarningsData, "last30"));
+    setLast30DaysExpenses(filterByDate(rawExpensesData, "last30"));
+  }, [earnings, expenses, results]);
 
-  const totalTodayEarnings = todayEarnings.reduce(
-    (sum, earning) => sum + Number(earning.amount),
-    0
-  );
-  const totalTodayExpenses = todayExpenses.reduce(
-    (sum, expense) => sum + Number(expense.amount),
-    0
-  );
+  // Totals for new filters
+  const reduceTotal = (list) =>
+    list.reduce((sum, i) => sum + Number(i.amount), 0);
+  const totalTodayEarnings = reduceTotal(todayEarnings);
+  const totalTodayExpenses = reduceTotal(todayExpenses);
+  const totalYesterdayEarnings = reduceTotal(yesterdayEarnings);
+  const totalYesterdayExpenses = reduceTotal(yesterdayExpenses);
+  const totalThisWeekEarnings = reduceTotal(thisWeekEarnings);
+  const totalThisWeekExpenses = reduceTotal(thisWeekExpenses);
+  const totalThisMonthEarnings = reduceTotal(thisMonthEarnings);
+  const totalThisMonthExpenses = reduceTotal(thisMonthExpenses);
+  const totalLast7DaysEarnings = reduceTotal(last7DaysEarnings);
+  const totalLast7DaysExpenses = reduceTotal(last7DaysExpenses);
+  const totalLast30DaysEarnings = reduceTotal(last30DaysEarnings);
+  const totalLast30DaysExpenses = reduceTotal(last30DaysExpenses);
 
-  const totalLast7DaysEarnings = last7DaysEarnings.reduce(
-    (sum, earning) => sum + Number(earning.amount),
-    0
-  );
-  const totalLast7DaysExpenses = last7DaysExpenses.reduce(
-    (sum, expense) => sum + Number(expense.amount),
-    0
-  );
-
-  const totalLast30DaysEarnings = last30DaysEarnings.reduce(
-    (sum, earning) => sum + Number(earning.amount),
-    0
-  );
-  const totalLast30DaysExpenses = last30DaysExpenses.reduce(
-    (sum, expense) => sum + Number(expense.amount),
-    0
-  );
-
-  // Extract unique categories(personal,health) from earnings and expenses su
+  // Unique categories
   useEffect(() => {
     const getUniqueCategories = (transactions) => [
-      ...new Set(transactions.map((transaction) => transaction.type)),
+      ...new Set(transactions.map((t) => t.type)),
     ];
+    setEarningsCategories(getUniqueCategories(rawEarningsData));
+    setExpensesCategories(getUniqueCategories(rawExpensesData));
+  }, [rawEarningsData, rawExpensesData]);
 
-    setEarningsCategories(getUniqueCategories(earnings));
-    setExpensesCategories(getUniqueCategories(expenses));
-  }, [earnings, expenses]);
-
-  // when Click Personal,Study type button UI then show the data
   useEffect(() => {
     const filterByType = (transactions, type) =>
-      type
-        ? transactions.filter((transaction) => transaction.type === type)
-        : transactions;
+      type ? transactions.filter((t) => t.type === type) : transactions;
 
-    setFilteredEarningsTransactions(filterByType(earnings, selectedType));
-    setFilteredExpensesTransactions(filterByType(expenses, selectedType));
-  }, [earnings, expenses, selectedType]);
+    setFilteredEarningsTransactions(
+      filterByType(rawEarningsData, selectedType)
+    );
+    setFilteredExpensesTransactions(
+      filterByType(rawExpensesData, selectedType)
+    );
+  }, [rawEarningsData, rawExpensesData, selectedType]);
 
-  // Function to add a new earning
   const addEarning = async (url, newEarning) => {
     await createData(url, newEarning);
-    setEarnings((prevEarnings) => [...prevEarnings, newEarning]);
+    setEarnings((prev) => [...prev, newEarning]);
     toast.success("You have added Earning Money");
   };
 
-  // Function to add a new expense
   const addExpense = async (url, newExpense) => {
     await createData(url, newExpense);
-    setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+    setExpenses((prev) => [...prev, newExpense]);
     toast.success("You have added Expense Money");
   };
 
-  // Generic update function for earnings or expenses
   const updateItem = async (updatedItem, setState) => {
     const { _id, ...data } = updatedItem;
     try {
@@ -178,36 +192,26 @@ const FinanceProvider = ({ children }) => {
     }
   };
 
-  // Update earning
+  const updateEarning = (item) => updateItem(item, setEarnings);
+  const updateExpense = (item) => updateItem(item, setExpenses);
 
-  const updateEarning = (updatedItem) => {
-    updateItem(updatedItem, setEarnings);
-  };
-
-  // Update expense
-  const updateExpense = (updatedItem) => {
-    updateItem(updatedItem, setExpenses);
-  };
-
-  // Function to delete an earning
   const deleteEarning = (id) => {
     const confirmDelete = window.confirm(
       "Are you sure? This will permanently delete!"
     );
     if (!confirmDelete) return;
     deleteData("earnings", id);
-    setEarnings(earnings.filter((earning) => earning._id !== id));
+    setEarnings(earnings.filter((e) => e._id !== id));
     toast.success("You have deleted Earning Money");
   };
 
-  // Function to delete an expense
   const deleteExpense = (id) => {
     const confirmDelete = window.confirm(
       "Are you sure? This will permanently delete!"
     );
     if (!confirmDelete) return;
     deleteData("expenses", id);
-    setExpenses(expenses.filter((expense) => expense._id !== id));
+    setExpenses(expenses.filter((e) => e._id !== id));
     toast.success("You have deleted Expense Money");
   };
 
@@ -218,24 +222,36 @@ const FinanceProvider = ({ children }) => {
         addExpense,
         updateEarning,
         updateExpense,
-        earnings,
-        expenses,
         deleteEarning,
         deleteExpense,
+        earnings,
+        expenses,
         totalEarnings,
         totalExpenses,
-        totalLast30DaysExpenses,
-        totalLast30DaysEarnings,
-        totalLast7DaysExpenses,
-        totalLast7DaysEarnings,
-        totalTodayExpenses,
-        totalTodayEarnings,
-        last30DaysExpenses,
-        last30DaysEarnings,
-        todayExpenses,
         todayEarnings,
-        last7DaysExpenses,
+        todayExpenses,
+        yesterdayEarnings,
+        yesterdayExpenses,
+        thisWeekEarnings,
+        thisWeekExpenses,
+        thisMonthEarnings,
+        thisMonthExpenses,
         last7DaysEarnings,
+        last7DaysExpenses,
+        last30DaysEarnings,
+        last30DaysExpenses,
+        totalTodayEarnings,
+        totalTodayExpenses,
+        totalYesterdayEarnings,
+        totalYesterdayExpenses,
+        totalThisWeekEarnings,
+        totalThisWeekExpenses,
+        totalThisMonthEarnings,
+        totalThisMonthExpenses,
+        totalLast7DaysEarnings,
+        totalLast7DaysExpenses,
+        totalLast30DaysEarnings,
+        totalLast30DaysExpenses,
         earningsCategories,
         expensesCategories,
         filteredEarningsTransactions,

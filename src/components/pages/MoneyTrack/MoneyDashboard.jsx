@@ -2,9 +2,10 @@ import { useContext } from "react";
 import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
 
 import CurrentStatus from "./CurrentStatus/CurrentStatus";
+import Details from "./Details/Details";
 
 const MoneyDashboard = () => {
-  const { user } = useContext(FinanceContext);
+  const { user, earnings, expenses } = useContext(FinanceContext);
 
   return (
     <div className="max-w-4xl mx-auto p-5 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-800 dark:via-gray-800 dark:to-gray-900 rounded-2xl shadow">
@@ -21,9 +22,9 @@ const MoneyDashboard = () => {
           </p>
         </div>
       </div>
-
       {/* Main Balance Card */}
       <CurrentStatus />
+      <Details earnings={earnings} expenses={expenses} />
 
       {/* Decorative Divider */}
       <div className="flex justify-center mt-6">

@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import CurrentStatus from "../MoneyTrack/CurrentStatus/CurrentStatus";
 
 const Screenshots = ({ user }) => {
   const [index, setIndex] = useState(0);
@@ -92,21 +91,6 @@ const Screenshots = ({ user }) => {
     setIndex((prev) => (prev === 0 ? screenshots.length - 1 : prev - 1));
 
   const renderContent = (item) => {
-    if (item.isValidUser) {
-      return (
-        <div className={`p-4 sm:p-6 ${item.color}`}>
-          <CurrentStatus />
-          <Link
-            to={item.navigateUrl}
-            className="inline-flex items-center justify-center gap-2 mt-4 w-full text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-2 rounded-full shadow-md hover:shadow-lg transition duration-300 hover:scale-105"
-          >
-            {item.navigateTitle}
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      );
-    }
-
     return (
       <div className={`p-4 sm:p-6 ${item.color}`}>
         <div className="flex flex-col md:flex-row gap-6 items-center">
