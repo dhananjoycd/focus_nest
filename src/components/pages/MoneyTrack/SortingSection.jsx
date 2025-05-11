@@ -5,8 +5,8 @@ import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
 
 const SortingSection = ({ type }) => {
   const {
-    earnings,
-    expenses,
+    rawExpensesData,
+    rawEarningsData,
     earningsCategories,
     expensesCategories,
     setResults,
@@ -22,13 +22,14 @@ const SortingSection = ({ type }) => {
   const yesterday = moment().subtract(1, "days");
   const startOfWeek = moment().startOf("week");
 
-  const transactions = type === "Earnings" ? earnings : expenses;
+  const transactions = type === "Earnings" ? rawEarningsData : rawExpensesData;
   const categories =
     type === "Earnings" ? earningsCategories : expensesCategories;
 
   const getFilteredTransactions = () => {
     return transactions.filter((t) => {
       const date = moment(t.date);
+      if (selectedFilter === "All") return true;
       if (selectedFilter === "Today") return date.isSame(today, "day");
       if (selectedFilter === "Yesterday") return date.isSame(yesterday, "day");
       if (selectedFilter === "This Week")
@@ -56,7 +57,7 @@ const SortingSection = ({ type }) => {
       );
       setResults(categoryFiltered);
     } else {
-      setResults([]); // Or reset if needed
+      setResults([]);
     }
   };
 
@@ -74,7 +75,7 @@ const SortingSection = ({ type }) => {
 
       {/* Filter Buttons */}
       <div className="flex flex-wrap justify-center gap-3 mb-6">
-        {["Today", "Yesterday", "This Week"].map((filter) => (
+        {["All", "Today", "Yesterday", "This Week"].map((filter) => (
           <button
             key={filter}
             onClick={() => setSelectedFilter(filter)}
@@ -122,7 +123,7 @@ const SortingSection = ({ type }) => {
             <div
               key={category}
               onClick={() => handleCategoryClick(category)}
-              className={` cursor-pointer p-4 rounded-xl shadow border-2 transition-all duration-300 text-center hover:scale-105 ${bgClass} ${
+              className={`cursor-pointer p-4 rounded-xl shadow border-2 transition-all duration-300 text-center hover:scale-105 ${bgClass} ${
                 isActive ? "ring-2 ring-blue-500" : ""
               }`}
             >
@@ -137,8 +138,14 @@ const SortingSection = ({ type }) => {
 
       <div className="mt-6 bg-gray-50 p-5 rounded-lg shadow-inner">
         <div className="text-center font-semibold text-gray-700">
-          <span className="text-blue-600">{selectedFilter}</span>{" "}
-          {filteredTransactions.reduce((sum, t) => sum + Number(t.amount), 0)}
+          <span className="text-blue-600">
+            {selectedFilter === "This Month"
+              ? `In ${moment(selectedMonth).format("MMMM YYYY")} :`
+              : selectedFilter}
+          </span>{" "}
+          <span className="text-red-600">
+            {filteredTransactions.reduce((sum, t) => sum + Number(t.amount), 0)}
+          </span>
           {"৳ (Total)"}
         </div>
       </div>
