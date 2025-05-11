@@ -2,15 +2,10 @@
 import { useContext, useEffect, useState } from "react";
 import moment from "moment";
 import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
+import useFilteredTransactions from "../../../hooks/useFilteredTransactions";
 
 const SortingSection = ({ type }) => {
-  const {
-    rawExpensesData,
-    rawEarningsData,
-    earningsCategories,
-    expensesCategories,
-    setResults,
-  } = useContext(FinanceContext);
+  const { setResults } = useContext(FinanceContext);
 
   const [selectedFilter, setSelectedFilter] = useState("This Month");
   const [selectedMonth, setSelectedMonth] = useState(
@@ -18,29 +13,11 @@ const SortingSection = ({ type }) => {
   );
   const [activeCategory, setActiveCategory] = useState("");
 
-  const today = moment();
-  const yesterday = moment().subtract(1, "days");
-  const startOfWeek = moment().startOf("week");
-
-  const transactions = type === "Earnings" ? rawEarningsData : rawExpensesData;
-  const categories =
-    type === "Earnings" ? earningsCategories : expensesCategories;
-
-  const getFilteredTransactions = () => {
-    return transactions.filter((t) => {
-      const date = moment(t.date);
-      if (selectedFilter === "All") return true;
-      if (selectedFilter === "Today") return date.isSame(today, "day");
-      if (selectedFilter === "Yesterday") return date.isSame(yesterday, "day");
-      if (selectedFilter === "This Week")
-        return date.isSameOrAfter(startOfWeek, "day");
-      if (selectedFilter === "This Month")
-        return date.format("YYYY-MM") === selectedMonth;
-      return true;
-    });
-  };
-
-  const filteredTransactions = getFilteredTransactions();
+  const { filteredTransactions, categories } = useFilteredTransactions(
+    type,
+    selectedFilter,
+    selectedMonth
+  );
 
   const calculateTotalByCategory = (category) =>
     filteredTransactions

@@ -3,6 +3,7 @@ import { useContext } from "react";
 import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
 import SortingSection from "./SortingSection";
 import Search from "./Search";
+import useFilteredTransactions from "../../../hooks/useFilteredTransactions";
 
 const FinancailHead = ({
   type,
@@ -11,15 +12,10 @@ const FinancailHead = ({
   setItemsToShow,
   customInput,
 }) => {
-  const {
-    // numbers of amount
-    setResults,
-    user,
-    totalEarnings,
-    totalExpenses,
-    totalTodayExpenses,
-    totalTodayEarnings,
-  } = useContext(FinanceContext);
+  const { setResults, user, totalEarnings, totalExpenses } =
+    useContext(FinanceContext);
+
+  const { filteredTransactions } = useFilteredTransactions(type, "Today");
 
   // Input change handler
   const handleInputChange = (e) => {
@@ -37,8 +33,8 @@ const FinancailHead = ({
     <>
       <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 p-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl shadow-lg text-white">
         <div className="flex justify-center items-center p-3 bg-white/20 rounded-xl text-lg font-semibold">
-          Today {type}:{" "}
-          {type === "Earnings" ? totalTodayEarnings : totalTodayExpenses}
+          Today{` ${type}: `}
+          {filteredTransactions.reduce((sum, t) => sum + Number(t.amount), 0)}
         </div>
         <div className="flex justify-center items-center p-3 bg-white/20 rounded-xl text-lg font-semibold">
           Total {type}: {type === "Earnings" ? totalEarnings : totalExpenses}
