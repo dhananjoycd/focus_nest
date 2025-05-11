@@ -81,40 +81,11 @@ const Details = ({ earnings, expenses }) => {
   const categoryData = getCategoryBreakdown(expenses);
   const categoryDataEarnings = getCategoryBreakdown(earnings);
 
-  const totalEarning = earnings.reduce(
-    (acc, curr) => acc + parseFloat(curr.amount),
-    0
-  );
-  const totalExpense = expenses.reduce(
-    (acc, curr) => acc + parseFloat(curr.amount),
-    0
-  );
-  const net = totalEarning - totalExpense;
-
   const COLORS1 = generateDynamicColors(categoryData.length);
   const COLORS2 = generateDynamicColors(categoryDataEarnings.length);
 
   return (
     <section className="space-y-10 px-4 py-8 bg-gradient-to-b from-[#fdfcfb] to-[#e2d1c3] min-h-screen">
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-        <div className="bg-green-100 p-4 rounded-xl shadow text-green-700 font-semibold">
-          💰 Total Earnings: ৳ {totalEarning.toFixed(2)}
-        </div>
-        <div className="bg-red-100 p-4 rounded-xl shadow text-red-600 font-semibold">
-          💸 Total Expenses: ৳ {totalExpense.toFixed(2)}
-        </div>
-        <div
-          className={`p-4 rounded-xl shadow font-semibold ${
-            net >= 0
-              ? "bg-blue-100 text-blue-700"
-              : "bg-yellow-100 text-yellow-800"
-          }`}
-        >
-          📊 Net Savings: ৳ {net.toFixed(2)}
-        </div>
-      </div>
-
       {/* Monthly Income vs Expense */}
       <div className="card bg-gradient-to-br from-blue-50 to-indigo-100 shadow-md p-4 rounded-xl">
         <h2 className="text-xl font-bold mb-4 text-indigo-700">
