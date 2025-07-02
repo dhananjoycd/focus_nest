@@ -85,9 +85,9 @@ const Details = ({ earnings, expenses }) => {
   const COLORS2 = generateDynamicColors(categoryDataEarnings.length);
 
   return (
-    <section className="space-y-10 px-4 py-8 bg-gradient-to-b from-[#fdfcfb] to-[#e2d1c3] min-h-screen">
+    <section className="space-y-10 min-h-screen">
       {/* Monthly Income vs Expense */}
-      <div className="card bg-gradient-to-br from-blue-50 to-indigo-100 shadow-md p-4 rounded-xl">
+      <div className="card bg-gradient-to-br from-white to-yellow-50 shadow-md p-4 rounded-xl">
         <h2 className="text-xl font-bold mb-4 text-indigo-700">
           📊 Monthly Income vs Expense (Last 6 Months)
         </h2>

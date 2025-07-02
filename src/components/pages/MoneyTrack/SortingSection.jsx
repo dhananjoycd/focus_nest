@@ -96,18 +96,21 @@ const SortingSection = ({ type }) => {
               ? "bg-green-100 hover:bg-green-200 border-green-300"
               : "bg-red-100 hover:bg-red-200 border-red-300";
 
-          return (
-            <div
-              key={category}
-              onClick={() => handleCategoryClick(category)}
-              className={`cursor-pointer p-4 rounded-xl shadow border-2 transition-all duration-300 text-center hover:scale-105 ${bgClass} ${
-                isActive ? "ring-2 ring-blue-500" : ""
-              }`}
-            >
-              <p className="font-semibold text-gray-800">{category}</p>
-              <p className="text-lg font-bold text-gray-900">{total}৳</p>
-            </div>
-          );
+          if (total > 0) {
+            return (
+              <div
+                key={category}
+                onClick={() => handleCategoryClick(category)}
+                className={`cursor-pointer p-4 rounded-xl shadow border-2 transition-all duration-300 text-center hover:scale-105 ${bgClass} ${
+                  isActive ? "ring-2 ring-blue-500" : ""
+                }`}
+              >
+                <p className="font-semibold text-gray-800">{category}</p>
+                <p className="text-lg font-bold text-gray-900">{total}৳</p>
+              </div>
+            );
+          }
+          return null;
         })}
       </div>
 
