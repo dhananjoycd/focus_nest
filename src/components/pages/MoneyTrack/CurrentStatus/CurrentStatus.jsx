@@ -5,7 +5,7 @@ import { useContext } from "react";
 import FinanceContext from "../../../../Providers/FinanceContext/FinanceContext";
 
 const CurrentStatus = () => {
-  const { totalEarnings, totalExpenses } = useContext(FinanceContext);
+  const { totalEarnings, totalExpenses, totalDue } = useContext(FinanceContext);
   const balance = totalEarnings - totalExpenses;
   const isPositive = balance >= 0;
   const formattedValue = (value) => value.toLocaleString("en-BD");
@@ -55,7 +55,7 @@ const CurrentStatus = () => {
           </div>
         </div>
         {/* Stats Grid */}
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
           {/* Earnings Card */}
           <div className="bg-blue-50 dark:bg-gray-800 p-4 rounded-xl shadow-sm border-l-4 border-green-500">
             <div className="flex items-center justify-center gap-3">
@@ -64,10 +64,10 @@ const CurrentStatus = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Total Earnings
+                  Total Earnings (নগদ)
                 </p>
                 <p className="text-xl font-bold text-gray-800 dark:text-white">
-                  ৳ {formattedValue(totalEarnings)}
+                  ৳ {formattedValue(totalEarnings - totalDue)}
                 </p>
               </div>
             </div>
@@ -90,6 +90,24 @@ const CurrentStatus = () => {
               </div>
             </div>
             <AddMoneyData type={"Expenses"} />
+          </div>
+
+          {/* Market Due Card */}
+          <div className="bg-amber-50 dark:bg-gray-800 p-4 rounded-xl shadow-sm border-l-4 border-amber-500">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
+                <Wallet className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Total Due (বাকি)
+                </p>
+                <p className="text-xl font-bold text-gray-800 dark:text-white">
+                  ৳ {formattedValue(totalDue)}
+                </p>
+              </div>
+            </div>
+            <a href="#due-ledger" className="btn btn-warning btn-sm w-full mt-2">View Khata</a>
           </div>
         </div>
       </div>

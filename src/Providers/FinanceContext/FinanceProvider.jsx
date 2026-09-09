@@ -18,6 +18,7 @@ const FinanceProvider = ({ children }) => {
 
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
+  const [totalDue, setTotalDue] = useState(0);
 
   const [earningsCategories, setEarningsCategories] = useState([]);
   const [expensesCategories, setExpensesCategories] = useState([]);
@@ -52,6 +53,9 @@ const FinanceProvider = ({ children }) => {
     );
     setTotalExpenses(
       expenses.reduce((sum, expense) => sum + Number(expense.amount), 0)
+    );
+    setTotalDue(
+      earnings.filter(e => e.paymentStatus === 'due').reduce((sum, earning) => sum + Number(earning.amount), 0)
     );
   }, [earnings, expenses]);
 
@@ -139,6 +143,7 @@ const FinanceProvider = ({ children }) => {
         expenses,
         totalEarnings,
         totalExpenses,
+        totalDue,
         earningsCategories,
         expensesCategories,
         filteredEarningsTransactions,

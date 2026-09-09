@@ -7,12 +7,13 @@ const useApi = (baseUrl) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Read (GET Request)
+  // Read (GET)
   const fetchData = async (endpoint = "") => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${baseUrl}/${endpoint}?uid=${user?.uid}`
+        `${baseUrl}/${endpoint}?uid=${user?.uid}`,
+        { withCredentials: true }
       );
       setError(null);
       return response.data;
@@ -24,15 +25,15 @@ const useApi = (baseUrl) => {
     }
   };
 
-  // Create (POST Request)
+  // Create (POST)
   const createData = async (endpoint = "", newData) => {
     setLoading(true);
     try {
-      console.log(`${baseUrl}/${endpoint}`);
-      const response = await axios.post(`${baseUrl}/${endpoint}`, {
-        ...newData,
-        uid: user?.uid,
-      });
+      const response = await axios.post(
+        `${baseUrl}/${endpoint}`,
+        { ...newData, uid: user?.uid },
+        { withCredentials: true }
+      );
       setError(null);
       return response.data;
     } catch (err) {
@@ -42,34 +43,37 @@ const useApi = (baseUrl) => {
     }
   };
 
-  // Update one (PUT/PATCH Request)
+  // Update (PUT/PATCH)
   const updateData = async (id, data, method = "PUT") => {
     setLoading(true);
     try {
       const url = `${baseUrl}/${id}`;
-      console.log("update data see", data);
       const response =
         method === "PATCH"
-          ? await axios.patch(url, data)
-          : await axios.put(url, data);
+          ? await axios.patch(url, data, { withCredentials: true })
+          : await axios.put(url, data, { withCredentials: true });
       setError(null);
       return response.data;
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  // Delete (DELETE Request)
+  // Delete
   const deleteData = async (endpoint = "", id) => {
     setLoading(true);
     try {
-      await axios.delete(`${baseUrl}/${endpoint}/${id}`);
+      await axios.delete(`${baseUrl}/${endpoint}/${id}`, {
+        withCredentials: true,
+      });
       setError(null);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return {

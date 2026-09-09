@@ -20,7 +20,10 @@ const EditProfile = () => {
     try {
       const response = await axios.put(
         `https://focus-nest-server.vercel.app/api/users/${user?._id}`,
-        formData
+        formData,
+        {
+          withCredentials: true,
+        }
       );
 
       setUser((p) => ({ ...p, ...formData }));

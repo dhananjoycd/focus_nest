@@ -2,25 +2,43 @@
 import { format } from "date-fns";
 import { useContext, useEffect, useState } from "react";
 import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
+import axios from "axios";
 
 const FinancialModel = ({ id, title, type, onSubmit, editData }) => {
   const fullDateTime = format(new Date(), "yyyy-MM-dd'T'HH:mm");
-  const { earningsCategories, expensesCategories } = useContext(FinanceContext);
+  const { earningsCategories, expensesCategories, user } = useContext(FinanceContext);
 
   const [formData, setFormData] = useState({
     source: "",
     type: "",
     amount: "",
     date: fullDateTime,
+    paymentStatus: "paid",
+    customerName: "",
+    customerPhone: "",
   });
 
   const [customType, setCustomType] = useState("");
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [error, setError] = useState(null);
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    if (user?.uid) {
+      axios.get(`http://localhost:5000/api/money/customers?uid=${user.uid}`)
+        .then(res => setCustomers(res.data))
+        .catch(err => console.error("Failed to load customers", err));
+    }
+  }, [user]);
 
   useEffect(() => {
     if (editData) {
-      setFormData(editData);
+      setFormData({
+        ...editData,
+        paymentStatus: editData.paymentStatus || "paid",
+        customerName: editData.customerName || "",
+        customerPhone: editData.customerPhone || ""
+      });
 
       const defaultTypes = [
         "Personal",
@@ -34,7 +52,7 @@ const FinancialModel = ({ id, title, type, onSubmit, editData }) => {
         ...expensesCategories,
       ].map((item) => item.toLowerCase());
 
-      const isCustom = !defaultTypes.includes(editData.type.toLowerCase());
+      const isCustom = !defaultTypes.includes(editData.type?.toLowerCase() || "");
       setShowCustomInput(isCustom);
       setCustomType(isCustom ? editData.type : "");
     } else {
@@ -48,6 +66,9 @@ const FinancialModel = ({ id, title, type, onSubmit, editData }) => {
       type: "",
       amount: "",
       date: fullDateTime,
+      paymentStatus: "paid",
+      customerName: "",
+      customerPhone: "",
     });
     setCustomType("");
     setShowCustomInput(false);
@@ -71,7 +92,6 @@ const FinancialModel = ({ id, title, type, onSubmit, editData }) => {
 
   const handleCustomTypeChange = ({ target: { value } }) => {
     if (!value) return;
-
     if (value[0] !== value[0].toUpperCase())
       return setError("First letter must be uppercase!");
     if (value.slice(1) !== value.slice(1).toLowerCase())
@@ -106,6 +126,11 @@ const FinancialModel = ({ id, title, type, onSubmit, editData }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (error) return;
+
+    if (formData.paymentStatus === "due" && !formData.customerName) {
+      setError("Customer Name is required for Due status");
+      return;
+    }
 
     const endpoint = type === "Earnings" ? "addEarning" : "addExpense";
     onSubmit(endpoint, formData, !!editData);
@@ -160,13 +185,69 @@ const FinancialModel = ({ id, title, type, onSubmit, editData }) => {
         </h3>
 
         <form onSubmit={handleSubmit} className="space-y-3">
+          {/* Payment Status (Tali-Khata MVP) */}
+          <div className="flex gap-4 p-2 bg-white rounded border justify-center">
+            <label className="flex items-center gap-2 cursor-pointer font-semibold">
+              <input 
+                type="radio" 
+                name="paymentStatus" 
+                value="paid" 
+                checked={formData.paymentStatus === "paid"} 
+                onChange={handleChange} 
+                className="radio radio-success radio-sm" 
+              /> 
+              Cash (নগদ)
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer font-semibold text-red-600">
+              <input 
+                type="radio" 
+                name="paymentStatus" 
+                value="due" 
+                checked={formData.paymentStatus === "due"} 
+                onChange={handleChange} 
+                className="radio radio-error radio-sm" 
+              /> 
+              Due (বাকি)
+            </label>
+          </div>
+
+          {/* Customer Details for Due */}
+          {formData.paymentStatus === "due" && (
+             <div className="space-y-3 bg-red-50 p-3 rounded border border-red-200">
+               <input
+                 type="text"
+                 name="customerName"
+                 value={formData.customerName}
+                 onChange={handleChange}
+                 placeholder="Customer Name (খদ্দেরের নাম)"
+                 className="input input-bordered input-error w-full bg-white"
+                 list="customer-list"
+                 required
+               />
+               <datalist id="customer-list">
+                 {customers.map((c, i) => (
+                   <option key={i} value={c.name} />
+                 ))}
+               </datalist>
+
+               <input
+                 type="text"
+                 name="customerPhone"
+                 value={formData.customerPhone}
+                 onChange={handleChange}
+                 placeholder="Customer Phone (optional)"
+                 className="input input-bordered input-error w-full bg-white"
+               />
+             </div>
+          )}
+
           {/* Source */}
           <input
             type="text"
             name="source"
             value={formData.source}
             onChange={handleChange}
-            placeholder="Enter Source (e.g. Salary, Freelance)"
+            placeholder="Enter Source (e.g. Sale, Item name)"
             className="input input-bordered w-full bg-white"
             required
           />

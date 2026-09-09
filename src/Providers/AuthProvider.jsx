@@ -105,22 +105,42 @@ const AuthProvider = ({ children }) => {
 
   // Track Auth State & Update User
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (!currentUser || !dbUsers.length) {
         setUser(null);
-      } else {
-        const matchedUser = dbUsers.find((u) => u.uid === currentUser.uid);
-        if (matchedUser && matchedUser.uid !== user?.uid) {
-          setUser(matchedUser);
+        setLoading(false);
+        return;
+      }
+
+      const matchedUser = dbUsers.find((u) => u.uid === currentUser.uid);
+      if (matchedUser && matchedUser.uid !== user?.uid) {
+        setUser(matchedUser);
+
+        try {
+          // Get Firebase ID token
+          const idToken = await currentUser.getIdToken();
+
+          // Send to backend to create JWT and set cookie
+          await fetch("https://focus-nest-server.vercel.app/jwt", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // IMPORTANT: allows cookies to be saved
+            body: JSON.stringify({ token: idToken }),
+          });
+
+          console.log("JWT cookie set successfully.");
+        } catch (error) {
+          console.error("Error setting JWT cookie:", error);
         }
       }
+
       setLoading(false);
     });
 
-    return () => {
-      unsubscribe();
-    };
-  }, [dbUsers, user?.uid]);
+    return () => unsubscribe();
+  }, [dbUsers, user?.uid, setUser, setLoading]);
 
   // Authentication Context Data
   const authInfo = {

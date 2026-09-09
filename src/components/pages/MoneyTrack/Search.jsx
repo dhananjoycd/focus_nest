@@ -24,7 +24,10 @@ const Search = ({ setResults, uid, type }) => {
           return setError(`Please make sure you are in a valid page`);
         }
         const response = await axios.get(
-          `https://focus-nest-server.vercel.app/api/money/search?q=${query}&uid=${uid}&type=${type}`
+          `https://focus-nest-server.vercel.app/api/money/search?q=${query}&uid=${uid}&type=${type}`,
+          {
+            withCredentials: true,
+          }
           // `http://localhost:5000/api/money/search?q=${query}&uid=${uid}&type=${type}`
         );
         setResults(response.data);

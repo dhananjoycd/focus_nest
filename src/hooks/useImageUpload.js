@@ -16,9 +16,16 @@ const useImageUpload = () => {
 
     try {
       // Upload to ImageBB
-      const response = await axios.post(image_hosting_api, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        image_hosting_api,
+        formData,
+        {
+          withCredentials: true,
+        },
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       if (response.data.success) {
         const imageUrl = response.data.data.url;

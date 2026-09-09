@@ -3,6 +3,7 @@ import FinanceContext from "../../../Providers/FinanceContext/FinanceContext";
 
 import CurrentStatus from "./CurrentStatus/CurrentStatus";
 import Details from "./Details/Details";
+import DueLedger from "./DueLedger";
 
 const MoneyDashboard = () => {
   const { user, earnings, expenses } = useContext(FinanceContext);
@@ -25,6 +26,9 @@ const MoneyDashboard = () => {
       {/* Main Balance Card */}
       <CurrentStatus />
       <Details earnings={earnings} expenses={expenses} />
+      
+      {/* Due Ledger (Tali-Khata) */}
+      <DueLedger />
 
       {/* Decorative Divider */}
       <div className="flex justify-center mt-6">
